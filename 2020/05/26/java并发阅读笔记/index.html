@@ -3,15 +3,36 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Hexo</title>
+  <title>java并发阅读笔记 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/index.html">
+  <meta name="description" content="java并发底层实现原理在多线程并发编程中synchronized和volatile都扮演着重要的角色， volatilevolatile是轻量级synchronized，它在多处理器开发中保证了共享变量的“可见性”。可见性的意思是当一个线程 修改一个共享变量时，另外一个线程能读到这个修改的值。如果volatile变量修饰符使用恰当 的话，它比synchronized的使用和执行成本更低，因为它不">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java并发阅读笔记">
+<meta property="og:url" content="http://yoursite.com/2020/05/26/java%E5%B9%B6%E5%8F%91%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="java并发底层实现原理在多线程并发编程中synchronized和volatile都扮演着重要的角色， volatilevolatile是轻量级synchronized，它在多处理器开发中保证了共享变量的“可见性”。可见性的意思是当一个线程 修改一个共享变量时，另外一个线程能读到这个修改的值。如果volatile变量修饰符使用恰当 的话，它比synchronized的使用和执行成本更低，因为它不">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="c:%5CUsers%5Chu%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1589027991500.png">
+<meta property="og:image" content="c:%5CUsers%5Chu%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1589028504935.png">
+<meta property="og:image" content="c:%5CUsers%5Chu%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1589080385748.png">
+<meta property="og:image" content="c:%5CUsers%5Chu%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1589080570189.png">
+<meta property="og:image" content="c:%5CUsers%5Chu%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1589080488284.png">
+<meta property="og:image" content="c:%5CUsers%5Chu%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1589080689282.png">
+<meta property="og:image" content="c:%5CUsers%5Chu%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1589440271187.png">
+<meta property="og:image" content="c:%5CUsers%5Chu%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1589440513029.png">
+<meta property="og:image" content="c:%5CUsers%5Chu%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1589440629828.png">
+<meta property="og:image" content="c:%5CUsers%5Chu%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1589444941155.png">
+<meta property="og:image" content="c:%5CUsers%5Chu%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1589467535602.png">
+<meta property="og:image" content="c:%5CUsers%5Chukun%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20200523185927241.png">
+<meta property="og:image" content="c:%5CUsers%5Chukun%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20200524092309865.png">
+<meta property="og:image" content="c:%5CUsers%5Chukun%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20200524111653302.png">
+<meta property="og:image" content="c:%5CUsers%5Chukun%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20200525151540153.png">
+<meta property="article:published_time" content="2020-05-26T13:10:49.000Z">
+<meta property="article:modified_time" content="2020-05-26T13:11:13.390Z">
 <meta property="article:author" content="Mr Hu">
+<meta property="article:tag" content="learn">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="c:%5CUsers%5Chu%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1589027991500.png">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -69,9 +90,7 @@
   </div>
 </div>
 
-        <section id="main">
-  
-    <article id="post-java并发阅读笔记" class="wow slideInRight article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-java并发阅读笔记" class="wow slideInRight article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2020/05/26/java%E5%B9%B6%E5%8F%91%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" class="article-date">
   <time class="post-time" datetime="2020-05-26T13:10:49.000Z" itemprop="datePublished">
@@ -87,8 +106,8 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/26/java%E5%B9%B6%E5%8F%91%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/">java并发阅读笔记</a>
+    <h1 class="article-title" itemprop="name">
+      java并发阅读笔记
     </h1>
   
 
@@ -272,118 +291,21 @@
     </footer>
   </div>
   
-</article>
-
-
-
-
-  
-    <article id="[post]-123" class="wow slideInRight article article-type-[post]" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/05/25/123/" class="article-date">
-  <time class="post-time" datetime="2020-05-25T11:19:27.000Z" itemprop="datePublished">
-    <span class="post-month">5月</span><br/>
-    <span class="post-day">25</span>
-  </time>
-</a>
-   
-  </div>
-  <div class="article-inner">
     
-    
-      <header class="article-header">
-        
+<nav id="article-nav">
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/25/123/">123</a>
-    </h1>
   
+    <a href="/2020/05/25/123/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">123</div>
+    </a>
+  
+</nav>
 
-        <div>
-          
-          
-        </div>
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/05/25/123/" data-id="ckanxun7500000cuqdrsr1f2e" class="article-share-link">分享</a>
-      
-      
-    </footer>
-  </div>
   
 </article>
 
 
-
-
-  
-    <article id="post-hello-world" class="wow slideInRight article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/05/25/hello-world/" class="article-date">
-  <time class="post-time" datetime="2020-05-25T11:12:28.189Z" itemprop="datePublished">
-    <span class="post-month">5月</span><br/>
-    <span class="post-day">25</span>
-  </time>
-</a>
-   
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/25/hello-world/">Hello World</a>
-    </h1>
-  
-
-        <div>
-          
-          
-              
-
-          
-        </div>
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/05/25/hello-world/" data-id="ckanxun7d00020cuq9xs771qv" class="article-share-link">分享</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-
-  
 
 </section>
         
