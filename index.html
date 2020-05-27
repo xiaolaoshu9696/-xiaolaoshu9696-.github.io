@@ -39,7 +39,7 @@
         <div class="widget-wrap mobile-header">
   <h3 class="widget-title"></h3>
   <div class="widget">
-    <img class="avatar" src="https://avatars0.githubusercontent.com/u/20333903?v=3&amp;s=460">
+    <img class="avatar" src="https://avatars2.githubusercontent.com/u/27482677?s=400&amp;u=6b59d40ef11f7ab3e1012ec3be6fa1df20c073c6&amp;v=4">
     <h2 class="author">Mr Hu</h2>
     <h3 class="description"></h3>
     <div class="count-box">
@@ -108,163 +108,15 @@
 <p>在编译器生成的汇编指令中对volatile变量进行写操作 会额外产生一条</p>
 <p>lock addl $0×0,(%esp) 在栈顶指针加0 形成内存屏障</p>
 <p>使得：1）将当前处理器缓存行的数据写回到系统内存。 2）这个写回内存的操作会使在其他CPU里缓存了该内存地址的数据无效。</p>
-<h3 id="synchronized"><a href="#synchronized" class="headerlink" title="synchronized"></a><strong>synchronized</strong></h3><p>在多线程并发编程中synchronized一直是元老级角色，很多人都会称呼它为重量级锁。但 是，随着Java SE 1.6对synchronized进行了各种优化之后，有些情况下它就并不那么重了。本文 详细介绍Java SE 1.6中为了减少获得锁和释放锁带来的性能消耗而引入的偏向锁和轻量级 锁，以及锁的存储结构和升级过程。先来看下利用synchronized实现同步的基础：Java中的每一个对象都可以作为锁。具体表现 为以下3种形式。 </p>
-<p>·对于普通同步方法，锁是当前实例对象。 </p>
-<p>·对于静态同步方法，锁是当前类的Class对象。</p>
-<p> ·对于同步方法块，锁是Synchonized括号里配置的对象。</p>
-<p>JVM基于进入和退出Monitor对 象来实现方法同步和代码块同步，代码块同步是使用monitorenter 和monitorexit指令实现的，而方法同步是使用另外一种方式实现的，细节在JVM规范里并没有 详细说明。但是，方法的同步同样可以使用这两个指令来实现。</p>
-<p>synchronized用的锁是存在Java对象头里的。</p>
-<p><img src="C:%5CUsers%5Chu%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1589027991500.png" alt="1589027991500"></p>
-<h2 id="锁的升级与对比"><a href="#锁的升级与对比" class="headerlink" title="锁的升级与对比"></a>锁的升级与对比</h2><p>Java SE 1.6为了减少获得锁和释放锁带来的性能消耗，引入了“偏向锁”和“轻量级锁”，在 Java SE 1.6中，锁一共有4种状态，级别从低到高依次是：无锁状态、偏向锁状态、轻量级锁状 态和重量级锁状态。 </p>
-<p>锁可以升级但不能降级</p>
-<h3 id="偏向锁"><a href="#偏向锁" class="headerlink" title="偏向锁"></a>偏向锁</h3><p>当一个线程访问同步块并 获取锁时，会在对象头和栈帧中的锁记录里存储锁偏向的线程ID，以后该线程在进入和退出 同步块时不需要进行CAS操作来加锁和解锁，只需简单地测试一下对象头的Mark Word里是否 存储着指向当前线程的偏向锁。如果测试成功，表示线程已经获得了锁。</p>
-<p>偏向锁的撤销</p>
-<p>偏向锁使用了一种等到竞争出现才释放锁的机制</p>
-<h3 id="轻量级锁"><a href="#轻量级锁" class="headerlink" title="轻量级锁"></a>轻量级锁</h3><h4 id="加锁"><a href="#加锁" class="headerlink" title="加锁"></a>加锁</h4><p>线程在执行同步块之前，JVM会先在当前线程的栈桢中创建用于存储锁记录的空间，并 </p>
-<p>将对象头中的Mark Word复制到锁记录中，官方称为Displaced Mark Word。然后线程尝试使用 </p>
-<p>CAS将对象头中的Mark Word替换为指向锁记录的指针。如果成功，当前线程获得锁，如果失 </p>
-<p>败，表示其他线程竞争锁，当前线程便尝试使用<strong>自旋</strong>来获取锁</p>
-<h3 id="解锁"><a href="#解锁" class="headerlink" title="解锁"></a>解锁</h3><p>轻量级解锁时，会使用原子的CAS操作将Displaced Mark Word替换回到对象头，如果成 </p>
-<p>功，则表示没有竞争发生。如果失败，表示当前锁存在竞争，锁就会膨胀成重量级锁。</p>
-<h2 id="原子操作"><a href="#原子操作" class="headerlink" title="原子操作"></a>原子操作</h2><p>原子（atomic）本意是“不能被进一步分割的最小粒子”，而原子操作（atomic operation）意 为“不可被中断的一个或一系列操作</p>
-<p><img src="C:%5CUsers%5Chu%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1589028504935.png" alt="s1589028504935"></p>
-<h3 id="处理器如何实现原子操作"><a href="#处理器如何实现原子操作" class="headerlink" title="处理器如何实现原子操作"></a><strong>处理器如何实现原子操作</strong></h3><p>处理器提供总线锁定和缓存锁定两个机制来保证复杂内存操作的原子性。 </p>
-<h3 id="Java如何实现原子操作"><a href="#Java如何实现原子操作" class="headerlink" title="Java如何实现原子操作"></a>Java如何实现原子操作</h3><p>锁和循环CAS的方式来实现原子操作</p>
-<h2 id="java内存模型JMM"><a href="#java内存模型JMM" class="headerlink" title="java内存模型JMM"></a>java内存模型JMM</h2><p>​    在并发编程中，需要处理两个关键问题：线程之间<strong>如何通信</strong>及线程之间<strong>如何同步</strong></p>
-<h4 id="通信"><a href="#通信" class="headerlink" title="通信"></a>通信</h4><p>​    通信是指线程之间以何种机制来交换信息。在命令式编程 中，线程之间的通信机制有两种：<strong>共享内存</strong>和<strong>消息传递</strong>。</p>
-<p>​    在共享内存的机制下，线程之间共享程序的公共状态，通过读写内存中的公共状态进行隐式通信，而在消息传递的并发模型里，线程通过发送消息来显式通信。</p>
-<h4 id="同步"><a href="#同步" class="headerlink" title="同步"></a>同步</h4><p>​    同步是指程序中用于控制不同线程间操作发生相对顺序的机制。</p>
-<p>​    在共享内存并发模型 里，同步是显式进行的。而在消息传递的并发模型中，同步时隐式进行的。</p>
-<p>​    </p>
-<p>java并发采用的时共享内存模型，Java线程之间的通信总是隐式进行，整个通信过程对 程序员完全透明。</p>
-<h3 id="JMM"><a href="#JMM" class="headerlink" title="JMM"></a>JMM</h3><p>JMM定义了线程和主内存之间的抽 象关系：线程之间的共享变量存储在<strong>主内存</strong>（Main Memory）中，每个线程都有一个私有的<strong>本地内存</strong>（Local Memory），本地内存中存储了该线程以读/写共享变量的副本。本地内存是JMM的 一个抽象概念，<strong>并不真实存在</strong>。</p>
-<p><img src="C:%5CUsers%5Chu%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1589080385748.png" alt="1589080385748"></p>
-<p><img src="C:%5CUsers%5Chu%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1589080570189.png" alt="1589080570189"></p>
-<h3 id="从源代码到指令的重排序"><a href="#从源代码到指令的重排序" class="headerlink" title="从源代码到指令的重排序"></a>从源代码到指令的重排序</h3><p>在执行程序时，为了提高性能，编译器和处理器常常会对指令做重排序。重排序分3种类 型</p>
-<ol>
-<li>编译器优化的重排序。编译器在不改变单线程程序语义的前提下，可以重新安排语句 的执行顺序。</li>
-<li>指令级并行的重排序。现代处理器采用了指令级并行技术（Instruction-Level Parallelism，ILP）来将多条指令重叠执行。如果不存在数据依赖性，处理器可以改变语句对应 机器指令的执行顺序</li>
-<li>内存系统的重排序。由于处理器使用缓存和读/写缓冲区，这使得加载和存储操作看上 去可能是在乱序执行。</li>
-</ol>
-<p><img src="C:%5CUsers%5Chu%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1589080488284.png" alt="1589080488284"></p>
-<p>为了保证内存可见性，Java编译器在生成指令序列的适当位置会插入内存屏障指令来禁 止特定类型的处理器重排序。JMM把内存屏障指令分为4类<img src="C:%5CUsers%5Chu%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1589080689282.png" alt="1589080689282"></p>
-<p>StoreLoad Barriers是一个“全能型”的屏障，它同时具有其他3个屏障的效果。</p>
-<h3 id="happens-before规则"><a href="#happens-before规则" class="headerlink" title="happens-before规则"></a>happens-before规则</h3><p>Java 线程只能操作自己的工作内存，其对变量的所有操作（读取、赋值等）都必须在工作内存中进行，不能直接读写主内存中的变量。这就有可能会导致可见性问题</p>
-<p>可见性问题的本身，也是由于不同线程之间的执行顺序得不到保证导致的，因此我们也可以将它的解决和有序性合并，即对 Java 一些指令的操作顺序进行限制，这样既保证了有序性，有解决了可见性。<strong>（可见性-&gt;有序性）</strong></p>
-<p>于是乎，Java 给出了一些命令执行的顺序规范，也就是大名鼎鼎 Happens-Before 规则。</p>
-<h4 id="数据依赖性"><a href="#数据依赖性" class="headerlink" title="数据依赖性"></a>数据依赖性</h4><p>如果两个操作访问同一个变量，且这两个操作中有一个为写操作，此时这两个操作之间 就存在数据依赖性。</p>
-<p>编译器和处理器不会改变存在数据依赖关系的两个操作的执行顺序。 这里所说的数据依赖性仅针对单个处理器中执行的指令序列和单个线程中执行的操作， <strong>不同处理器之间和不同线程之间的数据依赖性不被编译器和处理器考虑</strong>。</p>
-<h4 id="as-if-serial语义"><a href="#as-if-serial语义" class="headerlink" title="as-if-serial语义"></a>as-if-serial语义</h4><p>不管怎么重排序（编译器和处理器为了提高并行度），（单线程） 程序的执行结果不能被改变。</p>
-<p>在单线程程序中，对存在控制依赖的操作重排序，不会改变执行结果（这也是as-if-serial 语义允许对存在控制依赖的操作（但不会改变结果的操作）做重排序的原因）；但在多线程程序中，对存在控制依赖的操 作重排序，可能会改变程序的执行结果。</p>
-<h4 id="顺序一致性"><a href="#顺序一致性" class="headerlink" title="顺序一致性"></a>顺序一致性</h4><p>​    顺序一致性内存模型有两大特性。 1）一个线程中的所有操作必须按照程序的顺序来执行。 2）（不管程序是否同步）所有线程都只能看到一个单一的操作执行顺序。在顺序一致性内 存模型中，每个操作都必须原子执行且立刻对所有线程可见。</p>
-<p>但是，在JMM中就没有这个保证。未同步程序在JMM中不但整体的执行顺序是无序的，而且所有线程看到的操作执行顺序也可能不一致</p>
-<p>加synchronized锁来保证顺序一致性时，JMM在具体实现上的基本方针为：在不改变（正确同步的）程序执 </p>
-<p>行结果的前提下，尽可能地为编译器和处理器的优化打开方便之门。</p>
-<h4 id="volatile的特性"><a href="#volatile的特性" class="headerlink" title="volatile的特性"></a>volatile的特性</h4><p>理解volatile特性的一个好方法是把对volatile变量的单个读/写，看成是使用同一个锁对这些单个读/写操作做了同步。</p>
-<p>锁的happens-before规则保证释放锁和获取锁的两个线程之间的内存可见性，这意味着对 一个volatile变量的读，总是能看到（任意线程）对这个volatile变量最后的写入。</p>
-<p>这意味着，即使是64位的long型和double 型变量，只要它是volatile变量，对该变量的读/写就具有原子性。<strong>如果是多个volatile操作或类</strong> 似于volatile++这种复合操作，<strong>这些操作整体上不具有原子性</strong></p>
-<p>为此，JMM采取保守策略。下面是基于保守策略的JMM内存屏障插入策略。<br>·在每个volatile写操作的前面插入一个StoreStore屏障。</p>
-<p> ·在每个volatile写操作的后面插入一个StoreLoad屏障。 </p>
-<p>·在每个volatile读操作的后面插入一个LoadLoad屏障。</p>
-<p> ·在每个volatile读操作的后面插入一个LoadStore屏障</p>
-<h4 id="锁的内存语义"><a href="#锁的内存语义" class="headerlink" title="锁的内存语义"></a>锁的内存语义</h4><p>当线程获取锁时，JMM会把该线程对应的本地内存置为无效。从而使得被监视器保护的 临界区代码必须从主内存中读取共享变量</p>
-<p>下面对锁释放和锁获取的内存语义做个总结。 </p>
-<p>·线程A释放一个锁，实质上是线程A向接下来将要获取这个锁的某个线程发出了（线程A 对共享变量所做修改的）消息。 </p>
-<p>·线程B获取一个锁，实质上是线程B接收了之前某个线程发出的（在释放这个锁之前对共 享变量所做修改的）消息。<br>·线程A释放锁，随后线程B获取这个锁，这个过程实质上是线程A通过主内存向线程B发 送消息</p>
-<h4 id="锁内存语义的具体实现机制"><a href="#锁内存语义的具体实现机制" class="headerlink" title="锁内存语义的具体实现机制"></a>锁内存语义的具体实现机制</h4><p>以 ReentrantLock为例</p>
-<p>ReentrantLock的实现依赖于Java同步器框架AbstractQueuedSynchronizer（本文简称之为 AQS）。AQS使用一个整型的volatile变量（命名为state）来维护同步状态</p>
-<p>ReentrantLock调用lock方法获取锁，调用unlock方法释放锁</p>
-<p>公平锁和非公平锁释放时，最后都要写一个volatile变量state。</p>
-<p>公平锁获取时，首先会去读volatile变量。 ·</p>
-<p>非公平锁获取时，首先会用CAS更新volatile变量，这个操作同时具有volatile读和volatile 写的内存语义。</p>
-<h4 id="concurrent包的实现"><a href="#concurrent包的实现" class="headerlink" title="concurrent包的实现"></a>concurrent包的实现</h4><p>由于Java的CAS同时具有volatile读和volatile写的内存语义，因此Java线程之间的通信现 在有了下面4种方式。 1）A线程写volatile变量，随后B线程读这个volatile变量。 2）A线程写volatile变量，随后B线程用CAS更新这个volatile变量。 3）A线程用CAS更新一个volatile变量，随后B线程用CAS更新这个volatile变量。 4）A线程用CAS更新一个volatile变量，随后B线程读这个volatile变量。</p>
-<p>如果我们仔细分析concurrent包的源代码实现，会发现一个<strong>通用化的实现模式</strong>。 首先，<strong>声明共享变量为volatile</strong>。 然后，使用CAS的原子条件更新来实现线程之间的同步。 同时，配合以volatile的读/写和CAS所具有的volatile读和写的内存语义来实现线程之间的 通信</p>
-<h4 id="final-域的内存语义"><a href="#final-域的内存语义" class="headerlink" title="final 域的内存语义"></a>final 域的内存语义</h4><p>对于final域，编译器和处理器要遵守两个重排序规则。 1）在构造函数内对一个final域的写入，与随后把这个被构造对象的引用赋值给一个引用 变量，这两个操作之间不能重排序。 2）初次读一个包含final域的对象的引用，与随后初次读这个final域，这两个操作之间不能 重排序。</p>
-<p>JSR-133专家组增强了final的语义。通过为final域增加写和读重排序 规则，可以为Java程序员提供初始化安全保证：只要对象是正确构造的（被构造对象的引用在 构造函数中没有“逸出”），那么不需要使用同步（指lock和volatile的使用）就可以保证任意线程 都能看到这个final域在构造函数中被初始化之后的值。</p>
-<h4 id="happens-before"><a href="#happens-before" class="headerlink" title="happens-before"></a>happens-before</h4><p>《JSR-133:Java Memory Model and Thread Specification》定义了如下happens-before规则。</p>
-<p>1）程序顺序规则：一个线程中的每个操作，happens-before于该线程中的任意后续操作。 </p>
-<p>2）监视器锁规则：对一个锁的解锁，happens-before于随后对这个锁的加锁。 </p>
-<p>3）volatile变量规则：对一个volatile域的写，happens-before于任意后续对这个volatile域的 读。 </p>
-<p>4）传递性：如果A happens-before B，且B happens-before C，那么A happens-before C。 </p>
-<p>5）start()规则：如果线程A执行操作ThreadB.start()（启动线程B），那么A线程的 ThreadB.start()操作happens-before于线程B中的任意操作。</p>
-<p>6）join()规则：如果线程A执行操作ThreadB.join()并成功返回，那么线程B中的任意操作 happens-before于线程A从ThreadB.join()操作成功返回。(<em>Join<em>把指定的</em>线程<em>加入到当前</em>线程</em>,可以将两个交替执行的<em>线程<em>合并为顺序执行的</em>线程</em>)</p>
-<h4 id="双重检查锁定创建对象"><a href="#双重检查锁定创建对象" class="headerlink" title="双重检查锁定创建对象"></a>双重检查锁定创建对象</h4><p><img src="C:%5CUsers%5Chu%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1589440271187.png" alt="1589440271187"></p>
-<p>这样子其实是错误的。</p>
-<p>因为在7中，创建新对象分成3步，1. 分配空间，2.在空间中初始化对象，3.将instance指向新创建的空间。</p>
-<p>而在这个过程中，2，3两步是可以进行重排序的。</p>
-<p>知晓问题的根源之后，我们可以想出以下两个方法来实现线程的安全延迟初始化</p>
-<ol>
-<li>不允许2，3重排序</li>
-<li>允许2，3重排序，但是不允许其他线程看到这个重排序。</li>
-</ol>
-<p>第一种方法</p>
-<p><img src="C:%5CUsers%5Chu%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1589440513029.png" alt="1589440513029"></p>
-<p>将instance声明为volatile变量。这种方法禁止了2，3的重排序。</p>
-<p>这种方法还能对实例字段的延迟初始化</p>
-<p>第二种方法</p>
-<p><img src="C:%5CUsers%5Chu%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1589440629828.png" alt="1589440629828"></p>
-<p>JSR133 对旧内存模型的修补主要有两个：1增强了volatile的内存语义，2.增强了final的内存语义。</p>
-<h4 id="线程优先级"><a href="#线程优先级" class="headerlink" title="线程优先级"></a>线程优先级</h4><p>在Java线程中，通过一个整型成员变量priority来控制优先级，优先级的范围从1~10。在不同的JVM以及操作系统上，线程规划会存在差异， 有些操作系统甚至会忽略对线程优先级的设定，因此程序正确性不能依赖线程的优先级高低。</p>
-<h4 id="线程的状态"><a href="#线程的状态" class="headerlink" title="线程的状态"></a>线程的状态</h4><p>​    <img src="C:%5CUsers%5Chu%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1589444941155.png" alt="1589444941155"></p>
-<h4 id="Daemon线程"><a href="#Daemon线程" class="headerlink" title="Daemon线程"></a>Daemon线程</h4><p>​    Daemon线程是一种支持型线程，因为它主要被用作程序中后台调度以及支持性工作。这 意味着，当一个Java虚拟机中不存在非Daemon线程的时候，Java虚拟机将会退出。可以通过调 用Thread.setDaemon(true)将线程设置为Daemon线程</p>
-<h4 id="构建线程"><a href="#构建线程" class="headerlink" title="构建线程"></a>构建线程</h4><p>在运行线程之前首先要构造一个线程对象，线程对象在构造的时候需要提供线程所需要 的属性，如线程所属的线程组、线程优先级、是否是Daemon线程等信息</p>
-<h4 id="启动线程"><a href="#启动线程" class="headerlink" title="启动线程"></a>启动线程</h4><p>线程对象在初始化完成之后，调用start()方法就可以启动这个线程。线程start()方法的含义 是：当前线程（即parent线程）同步告知Java虚拟机，只要线程规划器空闲，应立即启动调用 start()方法的线程。启动一个线程前，最好为这个线程设置线程名称</p>
-<h3 id="中断"><a href="#中断" class="headerlink" title="中断"></a>中断</h3><p>中断可以理解为线程的一个标识位属性，它表示一个运行中的线程是否被其他线程进行了中断操作。中断好比其他线程对该线程打了个招呼，其他线程通过调用该线程的interrupt() 方法对其进行中断操作。线程通过检查自身是否被中断来进行响应，线程通过方法isInterrupted()来进行判断是否 被中断，也可以调用静态方法Thread.interrupted()对当前线程的中断标识位进行复位。</p>
-<h4 id="过期的api"><a href="#过期的api" class="headerlink" title="过期的api"></a>过期的api</h4><p>如果把它播放音乐比作一个线程的运作，那么对音乐播放 做出的暂停、恢复和停止操作对应在线程Thread的API就是suspend()、resume()和stop()。这些API是过期的，也就是不建议使用的</p>
-<h4 id="等待通知机制"><a href="#等待通知机制" class="headerlink" title="等待通知机制"></a>等待通知机制</h4><p>等待/通知的相关方法是任意Java对象都具备的，因为这些方法被定义在所有对象的超类 java.lang.Object上，方法和描述如表所示</p>
-<p><img src="C:%5CUsers%5Chu%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1589467535602.png" alt="1589467535602"></p>
-<p>等待/通知机制，是指一个线程A调用了对象O的wait()方法进入等待状态，而另一个线程B 调用了对象O的notify()或者notifyAll()方法，线程A收到通知后从对象O的wait()方法返回，进而 执行后续操作。上述两个线程通过对象O来完成交互，而对象上的wait()和notify/notifyAll()的 关系就如同开关信号一样，用来完成等待方和通知方之间的交互工作。</p>
-<p>获取锁的过程就是Monitor.enter的过程，成功之后就获取到了Object的锁，调用Object.wait()会释放锁，并会进入对象的等待队列WaitQueue中，调用对象的notify()方法会将其从WaitQueue移动到SynchronizedQueue中，此时WaitThread的状态变为阻塞状态。</p>
-<h4 id="等待-通知经典范式"><a href="#等待-通知经典范式" class="headerlink" title="等待/通知经典范式"></a>等待/通知经典范式</h4><p>等待方遵循如下原则：</p>
-<p>1）获取对象的锁。</p>
-<p>2）如果条件不满足，那么调用对象的wait()方法，被通知后仍要检查条件。 </p>
-<p>3）条件满足则执行对应的逻辑。</p>
-<p>通知方遵循如下原则。 </p>
-<p>1）获得对象的锁。 </p>
-<p>2）改变条件。 </p>
-<p>3）通知所有等待在对象上的线程。</p>
-<h4 id="管道输入-输出流"><a href="#管道输入-输出流" class="headerlink" title="管道输入/输出流"></a>管道输入/输出流</h4><p>​    管道输入/输出流和普通的文件输入/输出流或者网络输入/输出流不同之处在于，它主要用于线程之间的数据传输，而传输的媒介为内存。</p>
-<h4 id="Thread-join"><a href="#Thread-join" class="headerlink" title="Thread.join()"></a>Thread.join()</h4><p>​    如果一个线程A执行了thread.join()语句，其含义是：当前线程A等待thread线程终止之后才从thread.join()返回。线程Thread除了提供join()方法之外，还提供了join(long millis)和join(long millis,int nanos)两个具备超时特性的方法。这两个超时方法表示，如果线程thread在给定的超时 时间里没有终止，那么将会从该超时方法中返回。</p>
-<p>join()是使用了等待/通知机制实现的。</p>
-<h4 id="ThreadLocal的使用"><a href="#ThreadLocal的使用" class="headerlink" title="ThreadLocal的使用"></a>ThreadLocal的使用</h4><p>ThreadLocal，即线程变量，是一个以ThreadLocal对象为键、任意对象为值的存储结构。这 个结构被附带在线程上，也就是说一个线程可以根据一个ThreadLocal对象查询到绑定在这个 线程上的一个值。</p>
-<h2 id="线程应用示例"><a href="#线程应用示例" class="headerlink" title="线程应用示例"></a>线程应用示例</h2><h2 id="等待超时模式"><a href="#等待超时模式" class="headerlink" title="等待超时模式"></a>等待超时模式</h2><p>​        调用一个方法时等待一段时间（一般来说是给 定一个时间段），如果该方法能够在给定的时间段之内得到结果，那么将结果立刻返回，反之， 超时返回默认结果。</p>
-<h3 id="java中的锁-Lock"><a href="#java中的锁-Lock" class="headerlink" title="java中的锁 Lock"></a>java中的锁 Lock</h3><p>Lock接口的使用</p>
-<p><img src="C:%5CUsers%5Chukun%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20200523185927241.png" alt="image-20200523185927241"></p>
-<p>与synchronized不同的点在于</p>
-<p>lock可以尝试非阻塞获取锁，能够中断地获取锁，超时获取锁。</p>
-<h3 id="队列同步器"><a href="#队列同步器" class="headerlink" title="队列同步器"></a>队列同步器</h3><p>​    队列同步器是用来构建锁和其他同步组件的基础框架，它使用一个int成员变量state表示同步状态，通过内置的FIFO队列来完成资源获取线程的排队工作。</p>
-<p>​    同步器是实现锁的关键，锁是面对使用者的，同步器是面向锁的实现者，它简化了锁的实现方式，屏蔽的同步状态管理，线程的排队，等待和唤醒等底层操作。</p>
-<p>​    同步器可重写的方法有以下5个</p>
-<p><img src="C:%5CUsers%5Chukun%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20200524092309865.png" alt="image-20200524092309865"></p>
-<p>它通过调用同步器提供的3个方法来访问和修改同步状态，1.getState(), 2.setState() , 3. compareAndSetState(int expect,  int update)。</p>
-<p>然后同步器又会提供模板方法，通过调用上面重写的方法来实现以下三个功能 1  独占式获取与释放同步状态、2 共享式获取与释放同步状态 3 查询同步队列中的等待线程情况，自定义的同步组件将使用同步器提供的模板方法来实现自己的同步语义。</p>
-<h3 id="队列同步器的实现分析"><a href="#队列同步器的实现分析" class="headerlink" title="队列同步器的实现分析"></a>队列同步器的实现分析</h3><h4 id="同步队列"><a href="#同步队列" class="headerlink" title="同步队列"></a>同步队列</h4><p>​        同步器依赖内部的同步队列（一个FIFO双向队列）来完成同步状态的管理，当前线程获取 同步状态失败时，同步器会将当前线程以及等待状态等信息构造成为一个节点（Node）并将其 加入同步队列，同时会阻塞当前线程，当同步状态释放时，会把首节点中的线程唤醒，使其再次尝试获取同步状态</p>
-<p>同步队列有头部和尾部，没有成功获取到同步状态的线程将会加入队列的尾部，因为可能有很多线程都无法获取到同步状态，从而加入队列尾部，所以此操作使用一个CAS操作来实现以保证线程安全，而设置首节点则不需要CAS,设置首节点是通过同步状态成功的线程来完成的，由于只有一个线程能成功获取到同步状态，因此设置头节点不需要CAS来保证，只需将首节点设置成原首节点的后继节点并断开原首节点的next引用即可。</p>
-<h4 id="独占式同步状态获取和释放"><a href="#独占式同步状态获取和释放" class="headerlink" title="独占式同步状态获取和释放"></a>独占式同步状态获取和释放</h4><p><img src="C:%5CUsers%5Chukun%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20200524111653302.png" alt="image-20200524111653302"></p>
-<p>tryAcquire获取失败则会执行&amp;&amp;后面的构造同步节点，并通过addwaiter加入到同步队列尾部，最后调用acquirequeued使得该节点以“死循环”方式获取同步状态。</p>
-<h4 id="共享式和独占式超时"><a href="#共享式和独占式超时" class="headerlink" title="共享式和独占式超时"></a>共享式和独占式超时</h4><p>共享锁使用的是acquireShared方法，可以允许多个进程同时访问资源，同步器调用tryAcquireShared尝试获取同步状态，当返回值大于等于0时表示能够获取到同步状态，doAcquireShared(int arg)方法的自 旋过程中，如果当前节点的前驱为头节点时，尝试获取同步状态，如果返回值大于等于0，表示 该次获取同步状态成功并从自旋过程中退出。</p>
-<p>独占式超时 doAcquireNanos(int arg,long nanosTimeout)方法在支持响应中断的基础上，增加了超时获取的 特性。针对超时获取，主要需要计算出需要睡眠的时间间隔nanosTimeout，为了防止过早通知， nanosTimeout计算公式为：nanosTimeout-=now-lastTime，其中now为当前唤醒时间，lastTime为上 次唤醒时间，如果nanosTimeout大于0则表示超时时间未到，需要继续睡眠nanosTimeout纳秒， 反之，表示已经超时</p>
-<p>在实现上，自定义同步组件上实现Lock接口， 里面使用内部实现类Sync来继承队列同步器AbstractQueuedSYnchronized，比如如果你想实现不同于系统共享锁功能，你需要重写里面的tryAcquiredSharedhe tryReleaseShared，整个方法又可以用同步器提供的getState，setState和compareAndSetState来重写。之后你就可以使用Sync继承自队列同步器的模板方法，此方法就会用你重写的方法来操纵锁，最后锁的具体接口方法应该使用Sync的模板方法实现。</p>
-<h3 id="重入锁"><a href="#重入锁" class="headerlink" title="重入锁"></a>重入锁</h3><p>​    ReentrantLock</p>
-<p>1）线程再次获取锁。锁需要去识别获取锁的线程是否为当前占据锁的线程，如果是，则再 次成功获取。</p>
-<p>2）锁的最终释放。线程重复n次获取了锁，随后在第n次释放该锁后，其他线程能够获取到 该锁。锁的最终释放要求锁对于获取进行计数自增，计数表示当前锁被重复获取的次数，而锁 被释放时，计数自减，当计数等于0时表示锁已经成功释放。</p>
-<p><img src="C:%5CUsers%5Chukun%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20200525151540153.png" alt="image-20200525151540153"></p>
-<h5 id="公平锁与非公平锁"><a href="#公平锁与非公平锁" class="headerlink" title="公平锁与非公平锁"></a>公平锁与非公平锁</h5><p>如果一个锁是公平的，那么锁的获取顺序就应该符合请求的绝对时间顺序，也就是FIFO。</p>
-<p>对于非公平锁，只要CAS设置 同步状态成功，则表示当前线程获取了锁，而公平锁则不同，它的判断条件多了 hasQueuedPredecessors()方法，即加入了同步队列中当前节点是否有前驱节点的判断，如果该 方法返回true，则表示有线程比当前线程更早地请求获取锁，因此需要等待前驱线程获取并释 放锁之后才能继续获取锁</p>
-<h4 id="读写锁"><a href="#读写锁" class="headerlink" title="读写锁"></a>读写锁</h4><p><strong>读写锁维护了一对锁，一个读锁和一个写锁</strong>，通过分离读锁和写锁，使得并发相比一般的排他锁有了很大的提升</p>
-<p>读写锁在同一时刻可以允许多个读线程访问，但是在写线程访问时，所有的读 线程和其他写线程均被阻塞</p>
-<p>Java并发包提供读写锁的实现是 ReentrantReadWriteLock，它提供了3个特性，能够对公平性，重入性和 写锁降级为读锁的方式进行选择。</p>
-<h5 id="读写状态的设计"><a href="#读写状态的设计" class="headerlink" title="读写状态的设计"></a>读写状态的设计</h5><p>用一个32位整型变量维护读写锁状态，高16位代表读状态，低16位代表写状态</p>
-<h4 id="写锁的获取和释放"><a href="#写锁的获取和释放" class="headerlink" title="写锁的获取和释放"></a>写锁的获取和释放</h4><p>写锁是一个支持重进入的排它锁。如果当前线程已经获取了写锁，则增加写状态。如果当 前线程在获取写锁时，读锁已经被获取（读状态不为0）或者该线程不是已经获取写锁的线程， 则当前线程进入等待状态，因为写操作必须是其他线程可知的。</p>
-<p>释放过程也是每次释放减少写状态，当写状态为0时，表示写锁已经被释放。</p>
-<h4 id="读锁的获取和释放"><a href="#读锁的获取和释放" class="headerlink" title="读锁的获取和释放"></a>读锁的获取和释放</h4><p>读锁是一个支持重进入的共享锁，它能够被多个线程同时获取，在没有其他写线程访问 </p>
-<p>（或者写状态为0）时，读锁总会被成功地获取，而所做的也只是（线程安全的）增加读状态。如 </p>
-<p>果当前线程已经获取了读锁，则增加读状态</p>
-
+        
+          <p class="article-more-link">
+            <a href="/2020/05/26/java%E5%B9%B6%E5%8F%91%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/#more">Read More</a>
+          </p>
+        
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/05/26/java%E5%B9%B6%E5%8F%91%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" data-id="ckanxun7h00040cuqgu6hbh0m" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2020/05/26/java%E5%B9%B6%E5%8F%91%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" data-id="ckaonpfky0000uouq4tzse4m9" class="article-share-link">分享</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/learn/" rel="tag">learn</a></li></ul>
@@ -311,7 +163,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/05/25/123/" data-id="ckanxun7500000cuqdrsr1f2e" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2020/05/25/123/" data-id="ckaonpfla0001uouq6rhe3f3u" class="article-share-link">分享</a>
       
       
     </footer>
@@ -372,7 +224,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/05/25/hello-world/" data-id="ckanxun7d00020cuq9xs771qv" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2020/05/25/hello-world/" data-id="ckaonpfmf0006uouqcosk3z45" class="article-share-link">分享</a>
       
       
     </footer>
@@ -420,7 +272,7 @@
     <div class="widget-wrap">
   <h3 class="widget-title"></h3>
   <div class="widget">
-    <img class="avatar" src="https://avatars0.githubusercontent.com/u/20333903?v=3&amp;s=460">
+    <img class="avatar" src="https://avatars2.githubusercontent.com/u/27482677?s=400&amp;u=6b59d40ef11f7ab3e1012ec3be6fa1df20c073c6&amp;v=4">
     <h2 class="author">Mr Hu</h2>
     <h3 class="description"></h3>
     <div class="count-box">
