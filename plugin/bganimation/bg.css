@@ -12,12 +12,10 @@
 // .cb-slideshow li:nth-child(5) span { background-image: url('http://wx1.sinaimg.cn/large/dc58f491ly1fepmxwdysjj21400p0wli.jpg');}
 // .cb-slideshow li:nth-child(6) span { background-image: url('http://wx1.sinaimg.cn/large/dc58f491ly1fepmxx2ja5j20zk0qotek.jpg');}
 
-.cb-slideshow li:nth-child(1) span { background-image: url('https://sbimg.cn/image/pIjGG');}
-.cb-slideshow li:nth-child(2) span { background-image: url('https://sbimg.cn/image/pIJFK');}
-.cb-slideshow li:nth-child(3) span { background-image: url('https://sbimg.cn/image/pIsYI');}
-.cb-slideshow li:nth-child(4) span { background-image: url('https://sbimg.cn/image/pIhdR');}
-.cb-slideshow li:nth-child(5) span { background-image: url('https://sbimg.cn/image/pIsYI');}
-.cb-slideshow li:nth-child(6) span { background-image: url('https://sbimg.cn/image/pIhdR');}
+.cb-slideshow li:nth-child(1) span { background-image: url('https://wx1.sbimg.cn/2020/05/27/20129910524570354.jpg');}
+.cb-slideshow li:nth-child(2) span { background-image: url('https://wx1.sbimg.cn/2020/05/27/ePAGL.jpg');}
+.cb-slideshow li:nth-child(3) span { background-image: url('https://wx1.sbimg.cn/2020/05/27/f310728b4710b9129b85e85fcefdfc03934522cf.jpg');}
+.cb-slideshow li:nth-child(4) span { background-image: url('https://wx1.sbimg.cn/2020/05/27/timg.jpg');}
 
 .hidden-xs{
 
