@@ -12,27 +12,27 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="java并发底层实现原理在多线程并发编程中synchronized和volatile都扮演着重要的角色， volatilevolatile是轻量级synchronized，它在多处理器开发中保证了共享变量的“可见性”。可见性的意思是当一个线程 修改一个共享变量时，另外一个线程能读到这个修改的值。如果volatile变量修饰符使用恰当 的话，它比synchronized的使用和执行成本更低，因为它不">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="c:%5CUsers%5Chu%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1589027991500.png">
-<meta property="og:image" content="c:%5CUsers%5Chu%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1589028504935.png">
-<meta property="og:image" content="c:%5CUsers%5Chu%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1589080385748.png">
-<meta property="og:image" content="c:%5CUsers%5Chu%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1589080570189.png">
-<meta property="og:image" content="c:%5CUsers%5Chu%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1589080488284.png">
-<meta property="og:image" content="c:%5CUsers%5Chu%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1589080689282.png">
-<meta property="og:image" content="c:%5CUsers%5Chu%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1589440271187.png">
-<meta property="og:image" content="c:%5CUsers%5Chu%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1589440513029.png">
-<meta property="og:image" content="c:%5CUsers%5Chu%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1589440629828.png">
-<meta property="og:image" content="c:%5CUsers%5Chu%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1589444941155.png">
-<meta property="og:image" content="c:%5CUsers%5Chu%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1589467535602.png">
-<meta property="og:image" content="c:%5CUsers%5Chukun%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20200523185927241.png">
-<meta property="og:image" content="c:%5CUsers%5Chukun%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20200524092309865.png">
-<meta property="og:image" content="c:%5CUsers%5Chukun%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20200524111653302.png">
-<meta property="og:image" content="c:%5CUsers%5Chukun%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20200525151540153.png">
+<meta property="og:image" content="http://yoursite.com/.com//C:%5CUsers%5Chu%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1589027991500.png">
+<meta property="og:image" content="http://yoursite.com/.com//C:%5CUsers%5Chu%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1589028504935.png">
+<meta property="og:image" content="http://yoursite.com/.com//C:%5CUsers%5Chu%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1589080385748.png">
+<meta property="og:image" content="http://yoursite.com/.com//C:%5CUsers%5Chu%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1589080570189.png">
+<meta property="og:image" content="http://yoursite.com/.com//C:%5CUsers%5Chu%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1589080488284.png">
+<meta property="og:image" content="http://yoursite.com/.com//C:%5CUsers%5Chu%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1589080689282.png">
+<meta property="og:image" content="http://yoursite.com/.com//C:%5CUsers%5Chu%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1589440271187.png">
+<meta property="og:image" content="http://yoursite.com/.com//C:%5CUsers%5Chu%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1589440513029.png">
+<meta property="og:image" content="http://yoursite.com/.com//C:%5CUsers%5Chu%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1589440629828.png">
+<meta property="og:image" content="http://yoursite.com/.com//C:%5CUsers%5Chu%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1589444941155.png">
+<meta property="og:image" content="http://yoursite.com/.com//C:%5CUsers%5Chu%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1589467535602.png">
+<meta property="og:image" content="http://yoursite.com/.com//C:%5CUsers%5Chukun%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20200523185927241.png">
+<meta property="og:image" content="http://yoursite.com/.com//C:%5CUsers%5Chukun%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20200524092309865.png">
+<meta property="og:image" content="http://yoursite.com/.com//C:%5CUsers%5Chukun%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20200524111653302.png">
+<meta property="og:image" content="http://yoursite.com/.com//C:%5CUsers%5Chukun%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20200525151540153.png">
 <meta property="article:published_time" content="2020-05-26T13:10:49.000Z">
 <meta property="article:modified_time" content="2020-05-27T01:14:20.693Z">
 <meta property="article:author" content="Mr Hu">
 <meta property="article:tag" content="learn">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="c:%5CUsers%5Chu%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1589027991500.png">
+<meta name="twitter:image" content="http://yoursite.com/.com//C:%5CUsers%5Chu%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1589027991500.png">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -142,7 +142,7 @@
 <p> ·对于同步方法块，锁是Synchonized括号里配置的对象。</p>
 <p>JVM基于进入和退出Monitor对 象来实现方法同步和代码块同步，代码块同步是使用monitorenter 和monitorexit指令实现的，而方法同步是使用另外一种方式实现的，细节在JVM规范里并没有 详细说明。但是，方法的同步同样可以使用这两个指令来实现。</p>
 <p>synchronized用的锁是存在Java对象头里的。</p>
-<p><img src="C:%5CUsers%5Chu%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1589027991500.png" alt="1589027991500"></p>
+<p><img src="/.com//C:%5CUsers%5Chu%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1589027991500.png" alt="1589027991500"></p>
 <h2 id="锁的升级与对比"><a href="#锁的升级与对比" class="headerlink" title="锁的升级与对比"></a>锁的升级与对比</h2><p>Java SE 1.6为了减少获得锁和释放锁带来的性能消耗，引入了“偏向锁”和“轻量级锁”，在 Java SE 1.6中，锁一共有4种状态，级别从低到高依次是：无锁状态、偏向锁状态、轻量级锁状 态和重量级锁状态。 </p>
 <p>锁可以升级但不能降级</p>
 <h3 id="偏向锁"><a href="#偏向锁" class="headerlink" title="偏向锁"></a>偏向锁</h3><p>当一个线程访问同步块并 获取锁时，会在对象头和栈帧中的锁记录里存储锁偏向的线程ID，以后该线程在进入和退出 同步块时不需要进行CAS操作来加锁和解锁，只需简单地测试一下对象头的Mark Word里是否 存储着指向当前线程的偏向锁。如果测试成功，表示线程已经获得了锁。</p>
@@ -155,7 +155,7 @@
 <h3 id="解锁"><a href="#解锁" class="headerlink" title="解锁"></a>解锁</h3><p>轻量级解锁时，会使用原子的CAS操作将Displaced Mark Word替换回到对象头，如果成 </p>
 <p>功，则表示没有竞争发生。如果失败，表示当前锁存在竞争，锁就会膨胀成重量级锁。</p>
 <h2 id="原子操作"><a href="#原子操作" class="headerlink" title="原子操作"></a>原子操作</h2><p>原子（atomic）本意是“不能被进一步分割的最小粒子”，而原子操作（atomic operation）意 为“不可被中断的一个或一系列操作</p>
-<p><img src="C:%5CUsers%5Chu%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1589028504935.png" alt="s1589028504935"></p>
+<p><img src="/.com//C:%5CUsers%5Chu%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1589028504935.png" alt="s1589028504935"></p>
 <h3 id="处理器如何实现原子操作"><a href="#处理器如何实现原子操作" class="headerlink" title="处理器如何实现原子操作"></a><strong>处理器如何实现原子操作</strong></h3><p>处理器提供总线锁定和缓存锁定两个机制来保证复杂内存操作的原子性。 </p>
 <h3 id="Java如何实现原子操作"><a href="#Java如何实现原子操作" class="headerlink" title="Java如何实现原子操作"></a>Java如何实现原子操作</h3><p>锁和循环CAS的方式来实现原子操作</p>
 <h2 id="java内存模型JMM"><a href="#java内存模型JMM" class="headerlink" title="java内存模型JMM"></a>java内存模型JMM</h2><p>​    在并发编程中，需要处理两个关键问题：线程之间<strong>如何通信</strong>及线程之间<strong>如何同步</strong></p>
@@ -166,16 +166,16 @@
 <p>​    </p>
 <p>java并发采用的时共享内存模型，Java线程之间的通信总是隐式进行，整个通信过程对 程序员完全透明。</p>
 <h3 id="JMM"><a href="#JMM" class="headerlink" title="JMM"></a>JMM</h3><p>JMM定义了线程和主内存之间的抽 象关系：线程之间的共享变量存储在<strong>主内存</strong>（Main Memory）中，每个线程都有一个私有的<strong>本地内存</strong>（Local Memory），本地内存中存储了该线程以读/写共享变量的副本。本地内存是JMM的 一个抽象概念，<strong>并不真实存在</strong>。</p>
-<p><img src="C:%5CUsers%5Chu%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1589080385748.png" alt="1589080385748"></p>
-<p><img src="C:%5CUsers%5Chu%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1589080570189.png" alt="1589080570189"></p>
+<p><img src="/.com//C:%5CUsers%5Chu%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1589080385748.png" alt="1589080385748"></p>
+<p><img src="/.com//C:%5CUsers%5Chu%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1589080570189.png" alt="1589080570189"></p>
 <h3 id="从源代码到指令的重排序"><a href="#从源代码到指令的重排序" class="headerlink" title="从源代码到指令的重排序"></a>从源代码到指令的重排序</h3><p>在执行程序时，为了提高性能，编译器和处理器常常会对指令做重排序。重排序分3种类 型</p>
 <ol>
 <li>编译器优化的重排序。编译器在不改变单线程程序语义的前提下，可以重新安排语句 的执行顺序。</li>
 <li>指令级并行的重排序。现代处理器采用了指令级并行技术（Instruction-Level Parallelism，ILP）来将多条指令重叠执行。如果不存在数据依赖性，处理器可以改变语句对应 机器指令的执行顺序</li>
 <li>内存系统的重排序。由于处理器使用缓存和读/写缓冲区，这使得加载和存储操作看上 去可能是在乱序执行。</li>
 </ol>
-<p><img src="C:%5CUsers%5Chu%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1589080488284.png" alt="1589080488284"></p>
-<p>为了保证内存可见性，Java编译器在生成指令序列的适当位置会插入内存屏障指令来禁 止特定类型的处理器重排序。JMM把内存屏障指令分为4类<img src="C:%5CUsers%5Chu%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1589080689282.png" alt="1589080689282"></p>
+<p><img src="/.com//C:%5CUsers%5Chu%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1589080488284.png" alt="1589080488284"></p>
+<p>为了保证内存可见性，Java编译器在生成指令序列的适当位置会插入内存屏障指令来禁 止特定类型的处理器重排序。JMM把内存屏障指令分为4类<img src="/.com//C:%5CUsers%5Chu%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1589080689282.png" alt="1589080689282"></p>
 <p>StoreLoad Barriers是一个“全能型”的屏障，它同时具有其他3个屏障的效果。</p>
 <h3 id="happens-before规则"><a href="#happens-before规则" class="headerlink" title="happens-before规则"></a>happens-before规则</h3><p>Java 线程只能操作自己的工作内存，其对变量的所有操作（读取、赋值等）都必须在工作内存中进行，不能直接读写主内存中的变量。这就有可能会导致可见性问题</p>
 <p>可见性问题的本身，也是由于不同线程之间的执行顺序得不到保证导致的，因此我们也可以将它的解决和有序性合并，即对 Java 一些指令的操作顺序进行限制，这样既保证了有序性，有解决了可见性。<strong>（可见性-&gt;有序性）</strong></p>
@@ -216,7 +216,7 @@
 <p>4）传递性：如果A happens-before B，且B happens-before C，那么A happens-before C。 </p>
 <p>5）start()规则：如果线程A执行操作ThreadB.start()（启动线程B），那么A线程的 ThreadB.start()操作happens-before于线程B中的任意操作。</p>
 <p>6）join()规则：如果线程A执行操作ThreadB.join()并成功返回，那么线程B中的任意操作 happens-before于线程A从ThreadB.join()操作成功返回。(<em>Join<em>把指定的</em>线程<em>加入到当前</em>线程</em>,可以将两个交替执行的<em>线程<em>合并为顺序执行的</em>线程</em>)</p>
-<h4 id="双重检查锁定创建对象"><a href="#双重检查锁定创建对象" class="headerlink" title="双重检查锁定创建对象"></a>双重检查锁定创建对象</h4><p><img src="C:%5CUsers%5Chu%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1589440271187.png" alt="1589440271187"></p>
+<h4 id="双重检查锁定创建对象"><a href="#双重检查锁定创建对象" class="headerlink" title="双重检查锁定创建对象"></a>双重检查锁定创建对象</h4><p><img src="/.com//C:%5CUsers%5Chu%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1589440271187.png" alt="1589440271187"></p>
 <p>这样子其实是错误的。</p>
 <p>因为在7中，创建新对象分成3步，1. 分配空间，2.在空间中初始化对象，3.将instance指向新创建的空间。</p>
 <p>而在这个过程中，2，3两步是可以进行重排序的。</p>
@@ -226,21 +226,21 @@
 <li>允许2，3重排序，但是不允许其他线程看到这个重排序。</li>
 </ol>
 <p>第一种方法</p>
-<p><img src="C:%5CUsers%5Chu%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1589440513029.png" alt="1589440513029"></p>
+<p><img src="/.com//C:%5CUsers%5Chu%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1589440513029.png" alt="1589440513029"></p>
 <p>将instance声明为volatile变量。这种方法禁止了2，3的重排序。</p>
 <p>这种方法还能对实例字段的延迟初始化</p>
 <p>第二种方法</p>
-<p><img src="C:%5CUsers%5Chu%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1589440629828.png" alt="1589440629828"></p>
+<p><img src="/.com//C:%5CUsers%5Chu%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1589440629828.png" alt="1589440629828"></p>
 <p>JSR133 对旧内存模型的修补主要有两个：1增强了volatile的内存语义，2.增强了final的内存语义。</p>
 <h4 id="线程优先级"><a href="#线程优先级" class="headerlink" title="线程优先级"></a>线程优先级</h4><p>在Java线程中，通过一个整型成员变量priority来控制优先级，优先级的范围从1~10。在不同的JVM以及操作系统上，线程规划会存在差异， 有些操作系统甚至会忽略对线程优先级的设定，因此程序正确性不能依赖线程的优先级高低。</p>
-<h4 id="线程的状态"><a href="#线程的状态" class="headerlink" title="线程的状态"></a>线程的状态</h4><p>​    <img src="C:%5CUsers%5Chu%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1589444941155.png" alt="1589444941155"></p>
+<h4 id="线程的状态"><a href="#线程的状态" class="headerlink" title="线程的状态"></a>线程的状态</h4><p>​    <img src="/.com//C:%5CUsers%5Chu%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1589444941155.png" alt="1589444941155"></p>
 <h4 id="Daemon线程"><a href="#Daemon线程" class="headerlink" title="Daemon线程"></a>Daemon线程</h4><p>​    Daemon线程是一种支持型线程，因为它主要被用作程序中后台调度以及支持性工作。这 意味着，当一个Java虚拟机中不存在非Daemon线程的时候，Java虚拟机将会退出。可以通过调 用Thread.setDaemon(true)将线程设置为Daemon线程</p>
 <h4 id="构建线程"><a href="#构建线程" class="headerlink" title="构建线程"></a>构建线程</h4><p>在运行线程之前首先要构造一个线程对象，线程对象在构造的时候需要提供线程所需要 的属性，如线程所属的线程组、线程优先级、是否是Daemon线程等信息</p>
 <h4 id="启动线程"><a href="#启动线程" class="headerlink" title="启动线程"></a>启动线程</h4><p>线程对象在初始化完成之后，调用start()方法就可以启动这个线程。线程start()方法的含义 是：当前线程（即parent线程）同步告知Java虚拟机，只要线程规划器空闲，应立即启动调用 start()方法的线程。启动一个线程前，最好为这个线程设置线程名称</p>
 <h3 id="中断"><a href="#中断" class="headerlink" title="中断"></a>中断</h3><p>中断可以理解为线程的一个标识位属性，它表示一个运行中的线程是否被其他线程进行了中断操作。中断好比其他线程对该线程打了个招呼，其他线程通过调用该线程的interrupt() 方法对其进行中断操作。线程通过检查自身是否被中断来进行响应，线程通过方法isInterrupted()来进行判断是否 被中断，也可以调用静态方法Thread.interrupted()对当前线程的中断标识位进行复位。</p>
 <h4 id="过期的api"><a href="#过期的api" class="headerlink" title="过期的api"></a>过期的api</h4><p>如果把它播放音乐比作一个线程的运作，那么对音乐播放 做出的暂停、恢复和停止操作对应在线程Thread的API就是suspend()、resume()和stop()。这些API是过期的，也就是不建议使用的</p>
 <h4 id="等待通知机制"><a href="#等待通知机制" class="headerlink" title="等待通知机制"></a>等待通知机制</h4><p>等待/通知的相关方法是任意Java对象都具备的，因为这些方法被定义在所有对象的超类 java.lang.Object上，方法和描述如表所示</p>
-<p><img src="C:%5CUsers%5Chu%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1589467535602.png" alt="1589467535602"></p>
+<p><img src="/.com//C:%5CUsers%5Chu%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1589467535602.png" alt="1589467535602"></p>
 <p>等待/通知机制，是指一个线程A调用了对象O的wait()方法进入等待状态，而另一个线程B 调用了对象O的notify()或者notifyAll()方法，线程A收到通知后从对象O的wait()方法返回，进而 执行后续操作。上述两个线程通过对象O来完成交互，而对象上的wait()和notify/notifyAll()的 关系就如同开关信号一样，用来完成等待方和通知方之间的交互工作。</p>
 <p>获取锁的过程就是Monitor.enter的过程，成功之后就获取到了Object的锁，调用Object.wait()会释放锁，并会进入对象的等待队列WaitQueue中，调用对象的notify()方法会将其从WaitQueue移动到SynchronizedQueue中，此时WaitThread的状态变为阻塞状态。</p>
 <h4 id="等待-通知经典范式"><a href="#等待-通知经典范式" class="headerlink" title="等待/通知经典范式"></a>等待/通知经典范式</h4><p>等待方遵循如下原则：</p>
@@ -257,18 +257,18 @@
 <h4 id="ThreadLocal的使用"><a href="#ThreadLocal的使用" class="headerlink" title="ThreadLocal的使用"></a>ThreadLocal的使用</h4><p>ThreadLocal，即线程变量，是一个以ThreadLocal对象为键、任意对象为值的存储结构。这 个结构被附带在线程上，也就是说一个线程可以根据一个ThreadLocal对象查询到绑定在这个 线程上的一个值。</p>
 <h2 id="线程应用示例"><a href="#线程应用示例" class="headerlink" title="线程应用示例"></a>线程应用示例</h2><h2 id="等待超时模式"><a href="#等待超时模式" class="headerlink" title="等待超时模式"></a>等待超时模式</h2><p>​        调用一个方法时等待一段时间（一般来说是给 定一个时间段），如果该方法能够在给定的时间段之内得到结果，那么将结果立刻返回，反之， 超时返回默认结果。</p>
 <h3 id="java中的锁-Lock"><a href="#java中的锁-Lock" class="headerlink" title="java中的锁 Lock"></a>java中的锁 Lock</h3><p>Lock接口的使用</p>
-<p><img src="C:%5CUsers%5Chukun%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20200523185927241.png" alt="image-20200523185927241"></p>
+<p><img src="/.com//C:%5CUsers%5Chukun%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20200523185927241.png" alt="image-20200523185927241"></p>
 <p>与synchronized不同的点在于</p>
 <p>lock可以尝试非阻塞获取锁，能够中断地获取锁，超时获取锁。</p>
 <h3 id="队列同步器"><a href="#队列同步器" class="headerlink" title="队列同步器"></a>队列同步器</h3><p>​    队列同步器是用来构建锁和其他同步组件的基础框架，它使用一个int成员变量state表示同步状态，通过内置的FIFO队列来完成资源获取线程的排队工作。</p>
 <p>​    同步器是实现锁的关键，锁是面对使用者的，同步器是面向锁的实现者，它简化了锁的实现方式，屏蔽的同步状态管理，线程的排队，等待和唤醒等底层操作。</p>
 <p>​    同步器可重写的方法有以下5个</p>
-<p><img src="C:%5CUsers%5Chukun%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20200524092309865.png" alt="image-20200524092309865"></p>
+<p><img src="/.com//C:%5CUsers%5Chukun%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20200524092309865.png" alt="image-20200524092309865"></p>
 <p>它通过调用同步器提供的3个方法来访问和修改同步状态，1.getState(), 2.setState() , 3. compareAndSetState(int expect,  int update)。</p>
 <p>然后同步器又会提供模板方法，通过调用上面重写的方法来实现以下三个功能 1  独占式获取与释放同步状态、2 共享式获取与释放同步状态 3 查询同步队列中的等待线程情况，自定义的同步组件将使用同步器提供的模板方法来实现自己的同步语义。</p>
 <h3 id="队列同步器的实现分析"><a href="#队列同步器的实现分析" class="headerlink" title="队列同步器的实现分析"></a>队列同步器的实现分析</h3><h4 id="同步队列"><a href="#同步队列" class="headerlink" title="同步队列"></a>同步队列</h4><p>​        同步器依赖内部的同步队列（一个FIFO双向队列）来完成同步状态的管理，当前线程获取 同步状态失败时，同步器会将当前线程以及等待状态等信息构造成为一个节点（Node）并将其 加入同步队列，同时会阻塞当前线程，当同步状态释放时，会把首节点中的线程唤醒，使其再次尝试获取同步状态</p>
 <p>同步队列有头部和尾部，没有成功获取到同步状态的线程将会加入队列的尾部，因为可能有很多线程都无法获取到同步状态，从而加入队列尾部，所以此操作使用一个CAS操作来实现以保证线程安全，而设置首节点则不需要CAS,设置首节点是通过同步状态成功的线程来完成的，由于只有一个线程能成功获取到同步状态，因此设置头节点不需要CAS来保证，只需将首节点设置成原首节点的后继节点并断开原首节点的next引用即可。</p>
-<h4 id="独占式同步状态获取和释放"><a href="#独占式同步状态获取和释放" class="headerlink" title="独占式同步状态获取和释放"></a>独占式同步状态获取和释放</h4><p><img src="C:%5CUsers%5Chukun%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20200524111653302.png" alt="image-20200524111653302"></p>
+<h4 id="独占式同步状态获取和释放"><a href="#独占式同步状态获取和释放" class="headerlink" title="独占式同步状态获取和释放"></a>独占式同步状态获取和释放</h4><p><img src="/.com//C:%5CUsers%5Chukun%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20200524111653302.png" alt="image-20200524111653302"></p>
 <p>tryAcquire获取失败则会执行&amp;&amp;后面的构造同步节点，并通过addwaiter加入到同步队列尾部，最后调用acquirequeued使得该节点以“死循环”方式获取同步状态。</p>
 <h4 id="共享式和独占式超时"><a href="#共享式和独占式超时" class="headerlink" title="共享式和独占式超时"></a>共享式和独占式超时</h4><p>共享锁使用的是acquireShared方法，可以允许多个进程同时访问资源，同步器调用tryAcquireShared尝试获取同步状态，当返回值大于等于0时表示能够获取到同步状态，doAcquireShared(int arg)方法的自 旋过程中，如果当前节点的前驱为头节点时，尝试获取同步状态，如果返回值大于等于0，表示 该次获取同步状态成功并从自旋过程中退出。</p>
 <p>独占式超时 doAcquireNanos(int arg,long nanosTimeout)方法在支持响应中断的基础上，增加了超时获取的 特性。针对超时获取，主要需要计算出需要睡眠的时间间隔nanosTimeout，为了防止过早通知， nanosTimeout计算公式为：nanosTimeout-=now-lastTime，其中now为当前唤醒时间，lastTime为上 次唤醒时间，如果nanosTimeout大于0则表示超时时间未到，需要继续睡眠nanosTimeout纳秒， 反之，表示已经超时</p>
@@ -276,7 +276,7 @@
 <h3 id="重入锁"><a href="#重入锁" class="headerlink" title="重入锁"></a>重入锁</h3><p>​    ReentrantLock</p>
 <p>1）线程再次获取锁。锁需要去识别获取锁的线程是否为当前占据锁的线程，如果是，则再 次成功获取。</p>
 <p>2）锁的最终释放。线程重复n次获取了锁，随后在第n次释放该锁后，其他线程能够获取到 该锁。锁的最终释放要求锁对于获取进行计数自增，计数表示当前锁被重复获取的次数，而锁 被释放时，计数自减，当计数等于0时表示锁已经成功释放。</p>
-<p><img src="C:%5CUsers%5Chukun%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20200525151540153.png" alt="image-20200525151540153"></p>
+<p><img src="/.com//C:%5CUsers%5Chukun%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20200525151540153.png" alt="image-20200525151540153"></p>
 <h5 id="公平锁与非公平锁"><a href="#公平锁与非公平锁" class="headerlink" title="公平锁与非公平锁"></a>公平锁与非公平锁</h5><p>如果一个锁是公平的，那么锁的获取顺序就应该符合请求的绝对时间顺序，也就是FIFO。</p>
 <p>对于非公平锁，只要CAS设置 同步状态成功，则表示当前线程获取了锁，而公平锁则不同，它的判断条件多了 hasQueuedPredecessors()方法，即加入了同步队列中当前节点是否有前驱节点的判断，如果该 方法返回true，则表示有线程比当前线程更早地请求获取锁，因此需要等待前驱线程获取并释 放锁之后才能继续获取锁</p>
 <h4 id="读写锁"><a href="#读写锁" class="headerlink" title="读写锁"></a>读写锁</h4><p><strong>读写锁维护了一对锁，一个读锁和一个写锁</strong>，通过分离读锁和写锁，使得并发相比一般的排他锁有了很大的提升</p>
@@ -292,7 +292,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/05/26/java%E5%B9%B6%E5%8F%91%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" data-id="ckb7ctw5z0004msuq7yhvaprl" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2020/05/26/java%E5%B9%B6%E5%8F%91%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" data-id="ckb7d5lyt000918uqghxf25yy" class="article-share-link">分享</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/learn/" rel="tag">learn</a></li></ul>
