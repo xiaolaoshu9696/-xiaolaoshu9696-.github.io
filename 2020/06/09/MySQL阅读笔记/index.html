@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>MySQL阅读笔记 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="article">
+<meta property="og:title" content="MySQL阅读笔记">
+<meta property="og:url" content="http://yoursite.com/2020/06/09/MySQL%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://yoursite.com/2020/desktop/%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%96%99/%E7%AC%94%E8%AE%B0/images/image-20200603194753195.png">
+<meta property="og:image" content="http://yoursite.com/2020/desktop/%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%96%99/%E7%AC%94%E8%AE%B0/images/image-20200603205134853.png">
+<meta property="og:image" content="http://yoursite.com/2020/desktop/%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%96%99/%E7%AC%94%E8%AE%B0/images/image-20200603212535552.png">
+<meta property="og:image" content="http://yoursite.com/2020/desktop/%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%96%99/%E7%AC%94%E8%AE%B0/images/image-20200604094752904.png">
+<meta property="og:image" content="c:%5CUsers%5Chukun%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20200603214536835.png">
+<meta property="og:image" content="http://yoursite.com/2020/desktop/%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%96%99/%E7%AC%94%E8%AE%B0/images/image-20200603214546804.png">
+<meta property="og:image" content="http://yoursite.com/2020/desktop/%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%96%99/%E7%AC%94%E8%AE%B0/images/image-20200603214717401.png">
+<meta property="og:image" content="http://yoursite.com/2020/desktop/%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%96%99/%E7%AC%94%E8%AE%B0/images/image-20200604095618984.png">
+<meta property="og:image" content="http://yoursite.com/2020/desktop/%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%96%99/%E7%AC%94%E8%AE%B0/images/image-20200604102025108.png">
+<meta property="og:image" content="http://yoursite.com/2020/desktop/%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%96%99/%E7%AC%94%E8%AE%B0/images/image-20200604104250396.png">
+<meta property="og:image" content="http://yoursite.com/2020/desktop/%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%96%99/%E7%AC%94%E8%AE%B0/images/image-20200604104615427.png">
+<meta property="og:image" content="http://yoursite.com/2020/desktop/%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%96%99/%E7%AC%94%E8%AE%B0/images/image-20200604110743188.png">
+<meta property="og:image" content="http://yoursite.com/2020/desktop/%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%96%99/%E7%AC%94%E8%AE%B0/images/image-20200604111610141.png">
+<meta property="og:image" content="http://yoursite.com/2020/desktop/%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%96%99/%E7%AC%94%E8%AE%B0/images/image-20200604112537808.png">
+<meta property="og:image" content="http://yoursite.com/2020/desktop/%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%96%99/%E7%AC%94%E8%AE%B0/images/image-20200604151352703.png">
+<meta property="og:image" content="http://yoursite.com/2020/desktop/%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%96%99/%E7%AC%94%E8%AE%B0/images/image-20200604151630974.png">
+<meta property="og:image" content="http://yoursite.com/2020/desktop/%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%96%99/%E7%AC%94%E8%AE%B0/images/image-20200605165220975.png">
+<meta property="og:image" content="http://yoursite.com/2020/desktop/%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%96%99/%E7%AC%94%E8%AE%B0/images/image-20200605165420713.png">
+<meta property="og:image" content="http://yoursite.com/2020/desktop/%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%96%99/%E7%AC%94%E8%AE%B0/images/image-20200605165746655.png">
+<meta property="og:image" content="http://yoursite.com/2020/desktop/%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%96%99/%E7%AC%94%E8%AE%B0/images/image-20200605165849314.png">
+<meta property="og:image" content="http://yoursite.com/2020/desktop/%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%96%99/%E7%AC%94%E8%AE%B0/images/image-20200608191914160.png">
+<meta property="og:image" content="http://yoursite.com/2020/desktop/%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%96%99/%E7%AC%94%E8%AE%B0/images/image-20200608203605872.png">
+<meta property="og:image" content="http://yoursite.com/2020/desktop/%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%96%99/%E7%AC%94%E8%AE%B0/images/image-20200608220228092.png">
+<meta property="og:image" content="http://yoursite.com/2020/desktop/%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%96%99/%E7%AC%94%E8%AE%B0/images/image-20200608215948301.png">
+<meta property="article:published_time" content="2020-06-09T03:16:16.000Z">
+<meta property="article:modified_time" content="2020-06-09T03:17:57.664Z">
+<meta property="article:author" content="Mr Hu">
+<meta property="article:tag" content="mysql">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2020/desktop/%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%96%99/%E7%AC%94%E8%AE%B0/images/image-20200603194753195.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/plugin/bganimation/bg.css">
+
+  
+
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css" rel="stylesheet" type="text/css">
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <div class="outer">
+        <div class="widget-wrap mobile-header">
+  <h3 class="widget-title"></h3>
+  <div class="widget">
+    <img class="avatar" src="https://avatars2.githubusercontent.com/u/27482677?s=400&amp;u=6b59d40ef11f7ab3e1012ec3be6fa1df20c073c6&amp;v=4">
+    <h2 class="author">Mr Hu</h2>
+    <h3 class="description"></h3>
+    <div class="count-box">
+      <a href="/archives"><div><strong>6</strong><br>文章</div></a>
+      <a href="/categories"><div><strong>2</strong><br>分类</div></a>
+      <a href="/tags"><div><strong>3</strong><br>标签</div></a>
+    </div>
+    <ul class="blog-link">
+     
+          <a href="/" title="Home">
+            <li>主页</li>
+          </a>
+        
+          <a href="/archives" title="Archives">
+            <li>归档</li>
+          </a>
+        
+          <a href="/categories" title="Categories">
+            <li>分类</li>
+          </a>
+        
+          <a href="/tags" title="Tags">
+            <li>标签</li>
+          </a>
+        
+    </ul>
+  </div>
+</div>
+
+        <section id="main"><article id="post-MySQL阅读笔记" class="wow slideInRight article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/06/09/MySQL%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" class="article-date">
+  <time class="post-time" datetime="2020-06-09T03:16:16.000Z" itemprop="datePublished">
+    <span class="post-month">6月</span><br/>
+    <span class="post-day">09</span>
+  </time>
+</a>
+   
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      MySQL阅读笔记
+    </h1>
+  
+
+        <div>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/learn/">learn</a>
+  </div>
+
+          
+              
+  &nbsp; | &nbsp;
+  <div class="view-box">
+    <span id="/2020/06/09/MySQL%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" class="leancloud_visitors" data-flag-title="MySQL阅读笔记">
+      &nbsp;阅读次数<span class="leancloud-visitors-count"></span>
+    </span>
+  </div>
+
+
+          
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="../../../desktop/%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%96%99/%E7%AC%94%E8%AE%B0/images/image-20200603194753195.png" alt="image-20200603194753195"></p>
+<a id="more"></a>
+
+<h2 id="查询缓存、语法解析和查询优化"><a href="#查询缓存、语法解析和查询优化" class="headerlink" title="查询缓存、语法解析和查询优化"></a>查询缓存、语法解析和查询优化</h2><h3 id="查询缓存"><a href="#查询缓存" class="headerlink" title="查询缓存"></a>查询缓存</h3><p>MySQL会把刚刚处理过的查询请求和结果缓存起来，如 果下⼀次有⼀模⼀样的请求过来，直接从缓存中查找结果就好了。</p>
+<p>在MySQL 8.0中删除。因为虽然查询缓存有时可以提升系统性能，但也不得不因维护这块缓存 ⽽造成⼀些开销，⽐如每次都要去查询缓存中检索，查询请求处理 完需要更新查询缓存，维护该查询缓存对应的内存区域</p>
+<h3 id="语法解析"><a href="#语法解析" class="headerlink" title="语法解析"></a>语法解析</h3><p> 以MySQL服务器程 序⾸先要对这段⽂本做分析，判断请求的语法是否正确，然后从⽂本中将要查询的表、各种查询条件都提取出来放到MySQL服务器内部使⽤的⼀些数据结构上来</p>
+<h3 id="查询优化"><a href="#查询优化" class="headerlink" title="查询优化"></a>查询优化</h3><p>MySQL的优化程序会对我们的语句做⼀些优化，优化的结果就是⽣成⼀个执行计划，这个执行计划表明了应该使⽤哪些索引进行查询，表之间 的连接顺序是啥样的。我们可以使⽤EXPLAIN语句来查看某个语句的执行计划。</p>
+<h3 id="字符集"><a href="#字符集" class="headerlink" title="字符集"></a>字符集</h3><p>ASCII 字符集 128个字符</p>
+<p>ISO 8859-1 字符集 256个字符，在ASCII上扩充了128个西欧常用字符，别名latin1</p>
+<p>GB2312 字符集 收录了汉字以及拉丁字⺟、希腊字⺟、⽇⽂平假名及⽚假名字 ⺟、俄语⻄⾥尔字⺟。其中收录汉字6763个，其他⽂字符号 682个。如果该字符在ASCII字符集中，则采⽤1字节编码。 否则采⽤2字节编码。</p>
+<p>GBK字符集 GBK字符集只是在收录字符范围上对GB2312字符集作了扩充， 编码⽅式上兼容GB2312</p>
+<p>utf8字符集 收录地球上能想到的所有字符，⽽且还在不断扩充。这种字符 集兼容ASCII字符集，采⽤变⻓编码⽅式，编码⼀个字符需要 使⽤1～4个字节</p>
+<h2 id="MySQL中的utf8和utf8mb4"><a href="#MySQL中的utf8和utf8mb4" class="headerlink" title="MySQL中的utf8和utf8mb4"></a>MySQL中的utf8和utf8mb4</h2><p>在MySQL中utf8是utf8mb3的别名， 所以之后在MySQL中提到utf8就意味着使⽤1~3个字节来表示⼀个 字符，如果⼤家有使⽤4字节编码⼀个字符的情况，⽐如存储⼀些 emoji表情啥的，那请使⽤utf8mb4。</p>
+<p><img src="../../../desktop/%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%96%99/%E7%AC%94%E8%AE%B0/images/image-20200603205134853.png" alt="image-20200603205134853"></p>
+<h3 id="各级别字符集和比较规则"><a href="#各级别字符集和比较规则" class="headerlink" title="各级别字符集和比较规则"></a>各级别字符集和比较规则</h3><p>MySQL有4个级别的字符集和⽐较规则，分别是： </p>
+<p>​    服务器级别 </p>
+<p>​    数据库级别 </p>
+<p>​    表级别 </p>
+<p>​    列级别</p>
+<p>只修改字符集，则⽐较规则将变为修改后的字符集默认的⽐较 规则。 只修改⽐较规则，则字符集将变为修改后的⽐较规则对应的字符集。</p>
+<p>我们介绍的这4个级别字符集和⽐较规则的联系如下：</p>
+<p>如果创建或修改列时没有显式的指定字符集和⽐较规则，则该列默认⽤表的字符集和⽐较规则</p>
+<p>如果创建或修改表时没有显式的指定字符集和⽐较规则，则该表默认⽤数据库的字符集和⽐较规则 </p>
+<p>如果创建或修改数据库时没有显式的指定字符集和⽐较规则， 则该数据库默认⽤服务器的字符集和⽐较规则</p>
+<p>如果对于同⼀个字符串编码和解码使⽤的字符集不⼀样，会产⽣意想不到的结果，作为⼈类的我们看上去就像是产⽣了乱码⼀样。</p>
+<p>我们通常都把 character_set_client 、character_set_connection、character_set_results 这三个 系统变量设置成和客户端使⽤的字符集⼀致的情况，这样减少了很多 ⽆谓的字符集转换</p>
+<h3 id="MySQL存储引擎"><a href="#MySQL存储引擎" class="headerlink" title="MySQL存储引擎"></a>MySQL存储引擎</h3><p>真实数据在不同 存储引擎中存放的格式⼀般是不同的，甚⾄有的存储引擎⽐如 Memory都不⽤磁盘来存储数据，也就是说关闭服务器后表中的数据就消失了。</p>
+<h3 id="InnoDB"><a href="#InnoDB" class="headerlink" title="InnoDB"></a>InnoDB</h3><p>​        InnoDB是⼀个将表中的数据存储到磁盘上的存储引擎，所以即使关 机后重启我们的数据还是存在的。⽽真正处理数据的过程是发⽣在内 存中的，所以需要把磁盘中的数据加载到内存中，如果是处理写⼊或 修改请求的话，还需要把内存中的内容刷新到磁盘上。</p>
+<p>​        InnoDB采取的⽅式是：<strong>将数据划 分为若⼲个页，以页作为磁盘和内存之间交互的基本单位，InnoDB 中页的⼤⼩⼀般为 16 KB。</strong></p>
+<h1 id="InnoDB行格式"><a href="#InnoDB行格式" class="headerlink" title="InnoDB行格式"></a>InnoDB行格式</h1><p>​        Compact、Redundant、Dynamic和Compressed</p>
+<h2 id="Compact"><a href="#Compact" class="headerlink" title="Compact"></a>Compact</h2><p><img src="../../../desktop/%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%96%99/%E7%AC%94%E8%AE%B0/images/image-20200603212535552.png" alt="image-20200603212535552"></p>
+<p>记录的额外信息是服务器为了描述这条记录⽽不得不额外添加的⼀些信息</p>
+<h4 id="变长字段长度列表"><a href="#变长字段长度列表" class="headerlink" title="变长字段长度列表"></a>变长字段长度列表</h4><p>MySQL⽀持⼀些变⻓的数据类型， </p>
+<p>在Compact行格式中，把所有变长字段的真实数据占⽤的字节⻓度 都存放在记录的开头部位，从⽽形成⼀个变⻓字段⻓度列表，各变长字段数据占⽤的字节数按照列的顺序逆序存放，我们再次强调⼀遍， 是逆序存放！</p>
+<p>具体⽤1 个还是2个字节来表示真实数据占⽤的字节数，InnoDB有它的⼀套 规则，我们⾸先声明⼀下W、M和L的意思：</p>
+<ol>
+<li><p>假设某个字符集中表示⼀个字符最多需要使⽤的字节数为W， 也就是使⽤SHOW CHARSET语句的结果中的Maxlen列，⽐⽅ 说utf8字符集中的W就是3，gbk字符集中的W就是2，ascii 字符集中的W就是1。 </p>
+</li>
+<li><p>对于变⻓类型VARCHAR(M)来说，这种类型表示能存储最多M 个字符（注意是字符不是字节），所以这个类型能表示的字符 串最多占⽤的字节数就是M×W。 </p>
+</li>
+<li><p>假设它实际存储的字符串占⽤的字节数是L。 </p>
+</li>
+</ol>
+<p>所以确定使⽤1个字节还是2个字节表示真正字符串占⽤的字节数的 规则就是这样：</p>
+<ol>
+<li><p>如果M×W &lt;= 255，那么使⽤1个字节来表示真正字符串占⽤ 的字节数。</p>
+</li>
+<li><p>如果M×W &gt; 255，则分为两种情况：</p>
+<p>​    如果L &lt;= 127，则⽤1个字节来表示真正字符串占⽤的字节数。</p>
+<p>​    如果L &gt; 127，则⽤2个字节来表示真正字符串占⽤的字节数。</p>
+</li>
+</ol>
+<p>设计InnoDB的⼤叔使⽤该字节的第⼀个⼆进制位作为标 志位：如果该字节的第⼀个位为0，那该字节就是⼀个单独的 字段⻓度</p>
+<p>变⻓字段⻓度列表中只存储值为 ⾮NULL 的列内容占⽤的⻓度，值为 NULL 的列的⻓度是不储存的 。</p>
+<h4 id="NULL值列表"><a href="#NULL值列表" class="headerlink" title="NULL值列表"></a><strong>NULL</strong>值列表</h4><p>Compact行格式把这些值 为NULL的列统⼀管理</p>
+<p>将每个允许存储NULL的列对应⼀个⼆进制位，⼆进制 位按照列的顺序<strong>逆序</strong>排列，⼆进制位表示的意义如下： ⼆进制位的值为1时，代表该列的值为NULL。 ⼆进制位的值为0时，代表该列的值不为NULL。</p>
+<p><img src="../../../desktop/%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%96%99/%E7%AC%94%E8%AE%B0/images/image-20200604094752904.png" alt="image-20200604094752904"></p>
+<h4 id="记录头信息"><a href="#记录头信息" class="headerlink" title="记录头信息"></a>记录头信息</h4><p>还有⼀个⽤于描述记录 的记录头信息，它是由固定的5个字节组成，不同的位代表不同的意思</p>
+<p><img src="C:%5CUsers%5Chukun%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20200603214536835.png" alt="image-20200603214536835"></p>
+<p><img src="../../../desktop/%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%96%99/%E7%AC%94%E8%AE%B0/images/image-20200603214546804.png" alt="image-20200603214546804"></p>
+<h4 id="记录的真实数据"><a href="#记录的真实数据" class="headerlink" title="记录的真实数据"></a>记录的真实数据</h4><p>​        记录的真实数据除了我们⾃⼰定义的列的数据以外，MySQL会为 每个记录默认的添加⼀些列（也称为隐藏列）。</p>
+<p>如果有主键 row_id不存在</p>
+<p><img src="../../../desktop/%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%96%99/%E7%AC%94%E8%AE%B0/images/image-20200603214717401.png" alt="image-20200603214717401"></p>
+<p>真正名称其实是：DB_ROW_ID、DB_TRX_ID、 DB_ROLL_PTR。</p>
+<h4 id="CHAR-M-列的存储格式"><a href="#CHAR-M-列的存储格式" class="headerlink" title="CHAR(M)列的存储格式"></a><strong>CHAR(M)</strong>列的存储格式</h4><p>​    对于 CHAR(M) 类型的列来说，当列采⽤的是定⻓字符集时，该列占⽤的字节数不会被加到变⻓字段⻓度列表，⽽如果采 ⽤变⻓字符集时，该列占⽤的字节数也会被加到变⻓字段⻓度列表。</p>
+<h2 id="Redundant行格式"><a href="#Redundant行格式" class="headerlink" title="Redundant行格式"></a><strong>Redundant</strong>行格式</h2><p><img src="../../../desktop/%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%96%99/%E7%AC%94%E8%AE%B0/images/image-20200604095618984.png" alt="image-20200604095618984"></p>
+<h4 id="字段长度偏移列表"><a href="#字段长度偏移列表" class="headerlink" title="字段长度偏移列表"></a>字段长度偏移列表</h4><p>​        没有了变⻓两个字，意味着Redundant行格式会把该条记录中<strong>所有列</strong>（包括隐藏列）的⻓度信息都按照<strong>逆序</strong>存储到字段⻓度偏移列表</p>
+<p>​        多了个偏移两个字，这意味着计算列值⻓度的⽅式不像 Compact行格式那么直观，它是采⽤两个相邻数值的差 值来计算各个列值的⻓度。</p>
+<p>使⽤整个记录的真实数据⻓度来决定使⽤1个字 节还是2个字节存储列对应的偏移量。只要整条记录的真实数 据占⽤的存储空间⼤⼩⼤于127，即使第⼀个列的值占⽤存储 空间⼩于127，那对不起，也需要使⽤2个字节来表示该列对应 的偏移量。</p>
+<p>设计Redundant行格式的⼤叔特意在记录头信息 ⾥放置了⼀个称之为1byte_offs_flag的属性： 当它的值为1时，表明使⽤1个字节存储。 当它的值为0时，表明使⽤2个字节存储</p>
+<p>将列对应的偏移量值的第 ⼀个⽐特位作为是否为NULL的依据，该⽐特位也可以被称之为<strong>NULL⽐特位</strong>。也就是说在解析⼀条记录的某个列时，⾸先看⼀ 下该列对应的偏移量的NULL⽐特位是不是为1，如果为1，那 么该列的值就是NULL，否则不是NULL</p>
+<h4 id="CHAR-M-列的存储格式-1"><a href="#CHAR-M-列的存储格式-1" class="headerlink" title="CHAR(M)列的存储格式"></a>CHAR(M)列的存储格式</h4><p>​        在Redundant行格 式中⼗分⼲脆，不管该列使⽤的字符集是啥，只要是使⽤CHAR(M) 类型，占⽤的真实数据空间就是该字符集表示⼀个字符最多需要的字 节数和M的乘积。⽐⽅说使⽤utf8字符集的CHAR(10)类型的列占⽤ 的真实数据空间始终为30个字节</p>
+<h4 id="长度超过一页的情况"><a href="#长度超过一页的情况" class="headerlink" title="长度超过一页的情况"></a>长度超过一页的情况</h4><p>一页大小一般是16KB，也就是16384字节。而一个VARCHAR类型的类最多可以存储65532字节，这样就可能造成一个也存放不了一条记录的尴尬情况。</p>
+<p>在Compact和Reduntant行格式中，对于占⽤存储空间⾮常⼤的 列，在记录的真实数据处只会存储该列的⼀部分数据，把剩余的数据 分散存储在⼏个其他的页中，然后记录的真实数据处⽤20个字节存 储指向这些页的地址（当然这20个字节中还包括这些分散在其他页 ⾯中的数据的占⽤的字节数），从⽽可以找到剩余数据所在的页，如 图所示：</p>
+<p><img src="../../../desktop/%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%96%99/%E7%AC%94%E8%AE%B0/images/image-20200604102025108.png" alt="image-20200604102025108"></p>
+<p>不只是 VARCHAR(M) 类型的列，其他的 TEXT、BLOB 类型的列在存储数据⾮常多的时候也会发⽣行溢出。</p>
+<h4 id="行溢出的临界点"><a href="#行溢出的临界点" class="headerlink" title="行溢出的临界点"></a>行溢出的临界点</h4><p>MySQL中规定⼀个页中⾄少存放两行记录。</p>
+<p>每个页除了存放我们的记录以外，也需要存储⼀些额外的信 息，乱七⼋糟的额外信息加起来需要136个字节的空间。</p>
+<p>每个记录需要的额外信息是27字节。</p>
+<p>136 + 2×(27 + n) &gt; 16384 </p>
+<p>求解这个式⼦得出的解是：n &gt; 8098。也就是说如果⼀个列中存储 的数据不⼤于8098个字节，那就不会发⽣行溢出，否则就会发⽣行 溢出。不过这个8098个字节的结论只是针对只有⼀个列的</p>
+<h2 id="Dynamic和Compressed行格式"><a href="#Dynamic和Compressed行格式" class="headerlink" title="Dynamic和Compressed行格式"></a>Dynamic和Compressed行格式</h2><p>​        MySQL版本是5.7，它的默认行格式就是Dynamic。</p>
+<p>这俩行格式和Compact行格式挺像，只不过在处理行溢出数据时有点⼉ 分歧，它们不会在记录的真实数据处存储字段真实数据的前768个字 节，⽽是把所有的字节都存储到其他页⾯中，只在记录的真实数据处 存储其他页⾯的地址</p>
+<p><img src="../../../desktop/%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%96%99/%E7%AC%94%E8%AE%B0/images/image-20200604104250396.png" alt="image-20200604104250396"></p>
+<p>Compressed⾏格式和Dynamic不同的⼀点是，Compressed⾏格 式会采⽤压缩算法对页⾯进⾏压缩</p>
+<h1 id="InnoDB数据页结构"><a href="#InnoDB数据页结构" class="headerlink" title="InnoDB数据页结构"></a>InnoDB数据页结构</h1><p><img src="../../../desktop/%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%96%99/%E7%AC%94%E8%AE%B0/images/image-20200604104615427.png" alt="image-20200604104615427"></p>
+<h2 id="记录在页中的存储"><a href="#记录在页中的存储" class="headerlink" title="记录在页中的存储"></a>记录在页中的存储</h2><p>​        每当我们插⼊⼀条记录，都会从 Free Space部分，也就是尚未使⽤的存储空间中申请⼀个记录⼤⼩ 的空间划分到User Records部分，当Free Space部分的空间全 部被User Records部分替代掉之后，也就意味着这个页使⽤完。</p>
+<p><img src="../../../desktop/%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%96%99/%E7%AC%94%E8%AE%B0/images/image-20200604110743188.png" alt="image-20200604110743188"></p>
+<p>记录头信息：</p>
+<p>delete_mask ： 这个属性标记着当前记录是否被删除，占⽤1个⼆进制位，值为0的时候代表记录并没有被删除，为1的时候代表记录被删除掉了。</p>
+<p>min_rec_mask： B+树的每层⾮叶⼦节点中的最⼩记录都会添加该标记</p>
+<p>n_owned</p>
+<p>heap_no : 这个属性表示当前记录在本页中的位置.。 heap_no值为0和1的记录是伪记录，他们⾃动给 每个页⾥边⼉加了两个记录，由于这两个记录并不是我们⾃⼰ 插⼊的，所以有时候也称为伪记录或者虚拟记录。这两个伪记 录⼀个代表最⼩记录，⼀个代表最⼤记录。由于这两条记录不是我们⾃⼰定义的记录，所以它们并不存放 在页的User Records部分，他们被单独放在⼀个称 为Infimum + Supremum的部分。</p>
+<p>record_type： 这个属性表示当前记录的类型，⼀共有4种类型的记录，0表示 普通记录，1表示B+树⾮叶节点记录，2表示最⼩记录，3表示 最⼤记录。</p>
+<p>next_record： 这玩意⼉⾮常重要，它表示从当前记录的真实数据到下⼀条记 录的真实数据的地址偏移量。<strong>下⼀条记录指得并不是按照我们插⼊顺序的下⼀条记录， ⽽是按照主键值由⼩到⼤的顺序的下⼀条记录。</strong></p>
+<p><strong>Infimum记录（也就是最⼩记录） 的下⼀条记录就是本页中 主键值最⼩的⽤户记录，⽽本页中主键值最⼤的⽤户记录的下 ⼀条记录就是 Supremum记录（也就是最⼤记录）</strong></p>
+<p><img src="../../../desktop/%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%96%99/%E7%AC%94%E8%AE%B0/images/image-20200604111610141.png" alt="image-20200604111610141"></p>
+<p>我们的记录按照主键从⼩到⼤的顺序形成 了⼀个<strong>单链表</strong></p>
+<p><strong>不论我们怎么对页中的记录做增删改操作，InnoDB始终 会维护⼀条记录的单链表，链表中的各个节点是按照主键值由 ⼩到⼤的顺序连接起来的。</strong></p>
+<h2 id="page-Directory-页目录"><a href="#page-Directory-页目录" class="headerlink" title="page Directory 页目录"></a>page Directory 页目录</h2><p>他们的制 作过程是这样的：</p>
+<ol>
+<li>将所有正常的记录（包括最⼤和最⼩记录，不包括标记为已删 除的记录）划分为⼏个组。</li>
+<li>每个组的最后⼀条记录（也就是组内最⼤的那条记录）的头信息中的n_owned属性表示该记录拥有多少条记录，也就是该组 内共有⼏条记录。 </li>
+<li>将每个组的最后⼀条记录的地址偏移量单独提取出来按顺序存 储到靠近页的尾部的地⽅，这个地⽅就是所谓的Page Directory，也就是页⽬录（此时应该返回头看看页⾯各个部分的图）。页⾯⽬录中的这些地址偏移量被称为槽（英⽂名：Slot），所以这个页⾯⽬录就是由槽组成的。</li>
+</ol>
+<p><img src="../../../desktop/%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%96%99/%E7%AC%94%E8%AE%B0/images/image-20200604112537808.png" alt="image-20200604112537808">对于最⼩记录所在的分组只能有 1 条记录，最⼤记录所在的分组拥 有的记录条数只能在 1<del>8 条之间，剩下的分组中记录的条数范围只 能在是 4</del>8 条之间。</p>
+<p>· 初始情况下⼀个数据页⾥只有最⼩记录和最⼤记录两条记录， 它们分属于两个分组。</p>
+<p>· 之后每插⼊⼀条记录，都会从页⽬录中找到主键值⽐本记录的主键值⼤并且差值最⼩的槽，然后把该槽对应的记录的 n_owned值加1，表示本组内⼜添加了⼀条记录，直到该组中 的记录数等于8个。 </p>
+<p>· 在⼀个组中的记录数等于8个后再插⼊⼀条记录时，会将组中 的记录拆分成两个组，⼀个组中4条记录，另⼀个5条记录。这 个过程会在页⽬录中新增⼀个槽来记录这个新增分组中最⼤的 那条记录的偏移量。</p>
+<p><strong>所以在⼀个数据页中查找指定主键值的记录的过程分为两步：</strong></p>
+<ol>
+<li><strong>通过⼆分法确定该记录所在的槽，并找到该槽中主键值最⼩的 那条记录。</strong> </li>
+<li><strong>通过记录的next_record属性遍历该槽所在的组中的各个记 录。</strong></li>
+</ol>
+<h2 id="Page-Header（页⾯头部）"><a href="#Page-Header（页⾯头部）" class="headerlink" title="Page Header（页⾯头部）"></a><strong>Page Header</strong>（页⾯头部）</h2><p>为了得到⼀个数据页中存储的记录的状态信息，特意在页中定义了⼀个叫Page Header的部分，它是页结构的第⼆部分，这个部分占⽤固定的56个 字节，专⻔存储各种状态信息。</p>
+<p>​        <img src="../../../desktop/%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%96%99/%E7%AC%94%E8%AE%B0/images/image-20200604151352703.png" alt="image-20200604151352703"></p>
+<h2 id="File-Header文件头部"><a href="#File-Header文件头部" class="headerlink" title="File Header文件头部"></a>File Header文件头部</h2><p>我们现在描述的 File Header针对各种类型的页都通⽤，也就是说不同类型的页都会以File Header作为第⼀个组成部分，它描述了⼀些针对各种页 都通⽤的⼀些信息，⽐⽅说这个页的编号是多少，它的上⼀个页、下 ⼀个页是谁啦吧啦吧啦～ 这个部分占⽤固定的38个字节</p>
+<p>并不是 所有类型的页都有上⼀个和下⼀个页的属性，</p>
+<p>所有的数据页其实是⼀个双链表，就像这样：</p>
+<p><img src="../../../desktop/%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%96%99/%E7%AC%94%E8%AE%B0/images/image-20200604151630974.png" alt="image-20200604151630974"></p>
+<h2 id="File-Trailer"><a href="#File-Trailer" class="headerlink" title="File Trailer"></a><strong>File Trailer</strong></h2><p>8个字节，用来保证在数据同步到硬盘过程中出现异常情况时能够解决。</p>
+<p>前4个字节代表页的校验和</p>
+<p>后4个字节代表页⾯被最后修改时对应的⽇志序列位置（LSN） </p>
+<p>如果⾸部和尾部的校验和和LSN值校验不成功的话，就说明同 </p>
+<p>步过程出现了问题。</p>
+<h1 id="索引B-树"><a href="#索引B-树" class="headerlink" title="索引B+树"></a>索引B+树</h1><p>如果没有索引，在单页查找的情况下，如果查找的列是主键，那么就按之前使用二分法定位槽再遍历槽中记录。</p>
+<p>如果不是主键，则从最小记录开始一次遍历单链表中的每条记录</p>
+<p>在有很多页的情况下，由于我们并不能快速的定位到记录所在的页，所以只能从第⼀个页沿 着双向链表⼀直往下找，在每⼀个页中根据我们刚刚唠叨过的查找⽅ 式去查找指定的记录</p>
+<h3 id="一种简单的索引方案"><a href="#一种简单的索引方案" class="headerlink" title="一种简单的索引方案"></a>一种简单的索引方案</h3><p>因为各个页中的记录并没有规律，我们并不知道我们 的搜索条件匹配哪些页中的记录，所以 不得不 依次遍历所有的数据页。</p>
+<p>所以我们可以给每一页建一个目录，必须满足下⼀个数据⻚中⽤户记录的主键值必须⼤于上⼀个⻚中⽤户记 </p>
+<p>录的主键值。 </p>
+<p><img src="../../../desktop/%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%96%99/%E7%AC%94%E8%AE%B0/images/image-20200605165220975.png" alt="image-20200605165220975"></p>
+<p>每次插入删除都维护这样一个单链表和目录</p>
+<h3 id="InnoDB中的索引方案"><a href="#InnoDB中的索引方案" class="headerlink" title="InnoDB中的索引方案"></a>InnoDB中的索引方案</h3><p>他们复⽤ 了之前存储⽤户记录的数据⻚来存储⽬录项，为了和⽤户记录做⼀下 区分，我们把这些⽤来表示⽬录项的记录称为⽬录项记录。</p>
+<p>InnoDB怎么区分⼀条记录是普通的⽤户记录还是⽬录项记录呢？别 忘了记录头信息⾥的record_type属性，它的各个取值代表的意思 如下：</p>
+<p>0：普通的⽤户记录 </p>
+<p>1：⽬录项记录 </p>
+<p>2：最⼩记录 </p>
+<p>3：最⼤记录</p>
+<p><img src="../../../desktop/%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%96%99/%E7%AC%94%E8%AE%B0/images/image-20200605165420713.png" alt="image-20200605165420713"></p>
+<p>如果一个目录不够了怎么办？新加一个目录页呗</p>
+<p><img src="../../../desktop/%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%96%99/%E7%AC%94%E8%AE%B0/images/image-20200605165746655.png" alt="image-20200605165746655"></p>
+<p>如果有很多的目录页呢，就再加一个更高级的目录</p>
+<p><img src="../../../desktop/%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%96%99/%E7%AC%94%E8%AE%B0/images/image-20200605165849314.png" alt="image-20200605165849314"></p>
+<p>其实 这是⼀种组织数据的形式，或者说是⼀种数据结构，它的名称 是<strong>B+树</strong>。</p>
+<h3 id="聚簇索引-–主键创建的索引"><a href="#聚簇索引-–主键创建的索引" class="headerlink" title="聚簇索引 –主键创建的索引"></a>聚簇索引 –主键创建的索引</h3><p>​        InnoDB存储引擎会⾃动的为我们创建聚簇索引。另外有 趣的⼀点是，在InnoDB存储引擎中，聚簇索引就是数据的存储⽅式 （所有的⽤户记录都存储在了叶⼦节点），也就是所谓的索引即数据，数据即索引。</p>
+<h3 id="二级索引"><a href="#二级索引" class="headerlink" title="二级索引"></a>二级索引</h3><p>​        用其他列重新生成一棵B+树，与聚簇索引不同的是</p>
+<p>​        B+树的叶⼦节点存储的并不是完整的⽤户记录，⽽只是c2列 +主键这两个列的值。</p>
+<p>​        ⽬录项记录中不再是主键+⻚号的搭配，⽽变成了c2列+⻚号的 搭配。</p>
+<p>​        根据之前的检索策略找到c2的位置之后，我们必须再根据主键值去聚簇索引中再查 找⼀遍完整的⽤户记录</p>
+<h3 id="联合索引"><a href="#联合索引" class="headerlink" title="联合索引"></a>联合索引</h3><p>我们也可以同时以多个列的⼤⼩作为排序规则</p>
+<p>让B+树按照c2和c3列的⼤⼩进⾏排序</p>
+<p>这个包含两层含义： 先把各个记录和⻚按照c2列进⾏排序。 在记录的c2列相同的情况下，采⽤c3列进⾏排序</p>
+<p>以c2和c3列的⼤⼩为排序规则建⽴的B+树称为联 合索引，本质上也是⼀个⼆级索引。它的意思与分别为c2和c3列分 别建⽴索引的表述是不同的</p>
+<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><p>⼀个B+树索引的根节点⾃诞⽣之⽇起，便不会再移动。</p>
+<p>我们需要保证在B+树的 同⼀层内节点的⽬录项记录除⻚号这个字段以外是唯⼀的。</p>
+<p>所以对于 ⼆级索引的内节点的⽬录项记录的内容实际上是由三个部分构成的：</p>
+<p> 索引列的值</p>
+<p> 主键值</p>
+<p> ⻚号</p>
+<h2 id="MyISAM中的索引⽅案简单介绍"><a href="#MyISAM中的索引⽅案简单介绍" class="headerlink" title="MyISAM中的索引⽅案简单介绍"></a>MyISAM中的索引⽅案简单介绍</h2><p>MyISAM 存储引擎存储数据的样式：</p>
+<p><img src="../../../desktop/%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%96%99/%E7%AC%94%E8%AE%B0/images/image-20200608191914160.png" alt="image-20200608191914160"></p>
+<p>它并没有刻意的按照主键大小排序。</p>
+<p>使⽤MyISAM存储引擎的表会把索引信息另外存储到⼀个称为 索引⽂件的另⼀个⽂件中。MyISAM会单独为表的主键创建⼀ 个索引，只不过在索引的叶⼦节点中存储的不是完整的⽤户记 录，⽽是主键值 + 行号的组合。也就是先通过索引找到对应的行号，再通过⾏号去找对应的记录</p>
+<p>MyISAM中建⽴的索引相当于全部都是⼆级索引。</p>
+<h1 id="B-树索引的使用"><a href="#B-树索引的使用" class="headerlink" title="B+树索引的使用"></a><strong>B+</strong>树索引的使用</h1><h2 id="索引的代价"><a href="#索引的代价" class="headerlink" title="索引的代价"></a>索引的代价</h2><p>​        虽然索引是个好东⻄，可不能乱建，在介绍如何更好的使⽤ 索引之前先要了解⼀下使⽤这玩意⼉的代价，它在空间和时间上都会 拖后腿。</p>
+<p>​        空间上的代价 这个是显⽽易⻅的，每建⽴⼀个索引都要为它建⽴⼀棵B+树， 每⼀棵B+树的每⼀个节点都是⼀个数据⻚，⼀个⻚默认会占 ⽤16KB的存储空间，⼀棵很⼤的B+树由许多数据⻚组成，那 可是很⼤的⼀⽚存储空间呢。</p>
+<p>​        时间上的代价 每次对表中的数据进⾏增、删、改操作时，都需要去修改各 个B+树索引。要去维护链表。</p>
+<h2 id="B-树索引适⽤的条件"><a href="#B-树索引适⽤的条件" class="headerlink" title="B+树索引适⽤的条件"></a>B+树索引适⽤的条件</h2><p>​        联合索引的排序方式：按顺序进行排序，先按第一列进行排序，第一列相同再按第二列，依次进行。<strong>这个排序⽅式⼗分、特别、⾮常、巨、very very very重要，因为只 要⻚⾯和记录是排好序的，我们就可以通过⼆分法来快速定位查找。</strong></p>
+<h3 id="全值匹配"><a href="#全值匹配" class="headerlink" title="全值匹配"></a>全值匹配</h3><p>​        搜索条件的列与索引列一制。此时就会按照之前所说的形式进行检索。</p>
+<p>​        搜索条件的顺序也不会对结果有影响，因为MySQL有⼀个叫查询优化器的东东，会分析这些 搜索条件并且按照可以使⽤的索引中列的顺序来决定先使⽤哪个搜索 条件，后使⽤哪个搜索条件。</p>
+<h3 id="匹配左边的列"><a href="#匹配左边的列" class="headerlink" title="匹配左边的列"></a>匹配左边的列</h3><p>​        其实在我们的搜索语句中也可以不⽤包含全部联合索引中的列，只包含左边的就⾏。</p>
+<p>​        如果不出现左边的列，搜索语句的确就用不到B+树索引，因为第二列如果不在第一列相同的情况下可能时无序的。</p>
+<p>​    如果我们想使⽤联合索引中尽可能多的列，搜索条件中的各个列必须是联合索引中从最左边连续的列。</p>
+<h3 id="匹配列前缀"><a href="#匹配列前缀" class="headerlink" title="匹配列前缀"></a>匹配列前缀</h3><p>​        使用模糊匹配 like 时， 如果对建了索引的列进行查询，使用前缀进行查询，例如 ”AS%“，此时可以用到索引，但如果只给出后缀或者中间的某个字符串 例如 ”%AS%“，就只能全表扫描。</p>
+<h3 id="匹配范围值"><a href="#匹配范围值" class="headerlink" title="匹配范围值"></a>匹配范围值</h3><p>​        所有记录都是按照索引列的值从⼩到⼤的顺序排好序的。 所以查询某个范围内的记录也是可以用到索引的。</p>
+<p>​        如果对多个列同时进 ⾏范围查找的话，只有对索引最左边的那个列进⾏范围查找的时候才 能⽤到B+树索引。因为按照第一列进行范围查找得到的记录中可能并不是按照第二列进行排序的</p>
+<h3 id="精确匹配某一列并范围匹配另外一列"><a href="#精确匹配某一列并范围匹配另外一列" class="headerlink" title="精确匹配某一列并范围匹配另外一列"></a>精确匹配某一列并范围匹配另外一列</h3><p>对于同⼀个联合索引来说，虽然对多个列都进⾏范围查找时只能⽤到 最左边那个索引列，但是如果左边的列是精确查找，则右边的列可以 进⾏范围查找</p>
+<h2 id="用于排序"><a href="#用于排序" class="headerlink" title="用于排序"></a>用于排序</h2><p>​            在写查询语句的时候经常需要对查询出来的记录通过ORDER BY ⼦句按照某种规则进⾏排序。⼀般情况下，我们只能把记录都加载到 内存中，再⽤⼀些排序算法，⽐如快速排序、归并排序、吧啦吧啦排 序等等在内存中对这些记录进⾏排序，有的时候可能查询的结果集太 ⼤以⾄于不能在内存中进⾏排序的话，还可能暂时借助磁盘的空间来 存放中间结果，排序操作完成后再把排好序的结果集返回到客户端。 在MySQL中，把这种在内存中或者磁盘上进⾏排序的⽅式统称为⽂件 排序（英⽂名：filesort），跟⽂件这个词⼉⼀沾边⼉，就显得这 些排序操作⾮常慢了（磁盘和内存的速度⽐起来，就像是⻜机和蜗⽜ 的对⽐）。但是如果ORDER BY⼦句⾥使⽤到了我们的索引列，就有 可能省去在内存或⽂件中排序的步骤</p>
+<h3 id="使⽤联合索引进⾏排序注意事项"><a href="#使⽤联合索引进⾏排序注意事项" class="headerlink" title="使⽤联合索引进⾏排序注意事项"></a>使⽤联合索引进⾏排序注意事项</h3><p>​        对于联合索引有个问题需要注意，ORDER BY的⼦句后边的列的顺序 也必须按照索引列的顺序给出。</p>
+<h3 id="不可以使⽤索引进⾏排序的几种情况"><a href="#不可以使⽤索引进⾏排序的几种情况" class="headerlink" title="不可以使⽤索引进⾏排序的几种情况"></a>不可以使⽤索引进⾏排序的几种情况</h3><p>ASC、DESC混⽤</p>
+<p>WHERE⼦句中出现⾮排序使⽤到的索引列</p>
+<p>排序列包含⾮同⼀个索引的列</p>
+<p>排序列使⽤了复杂的表达式</p>
+<h2 id="用于分组"><a href="#用于分组" class="headerlink" title="用于分组"></a>用于分组</h2><p>​        如果是按索引的顺序进行分组操作，也是可以用到索引的。</p>
+<h2 id="回表的代价"><a href="#回表的代价" class="headerlink" title="回表的代价"></a>回表的代价</h2><p>​        什么时候使⽤采⽤⼆级索引 + 回 表的⽅式去执⾏查询呢？这个就是传说中的查询优化器做的⼯作，查 询优化器会事先对表中的记录计算⼀些统计数据，然后再利⽤这些统 计数据根据查询的条件来计算⼀下需要回表的记录数，需要回表的记 录数越多，就越倾向于使⽤全表扫描，反之倾向于使⽤⼆级索引 + 回表的⽅式。</p>
+<p>​        </p>
+<h2 id="覆盖索引"><a href="#覆盖索引" class="headerlink" title="覆盖索引"></a>覆盖索引</h2><p>​        为了彻底告别回表操作带来的性能损耗，我们建议：最好在查询列表 ⾥只包含索引列。</p>
+<p>​        我们很不⿎励⽤*号作为查询列表，最好把我们需要查询的 列依次标明。</p>
+<h2 id="如何挑选索引"><a href="#如何挑选索引" class="headerlink" title="如何挑选索引"></a>如何挑选索引</h2><h3 id="只为用于搜索、排序或分组的列创建索引"><a href="#只为用于搜索、排序或分组的列创建索引" class="headerlink" title="只为用于搜索、排序或分组的列创建索引"></a>只为用于搜索、排序或分组的列创建索引</h3><h3 id="考虑列的基数"><a href="#考虑列的基数" class="headerlink" title="考虑列的基数"></a>考虑列的基数</h3><p>列的基数指的是某⼀列中不重复数据的个数，在记录⾏数⼀定的情况下，列的基数越⼤，该 列中的值越分散，列的基数越⼩，该列中的值越集中。</p>
+<p>最好为那些列的基数⼤的列建⽴索引，为基数太⼩列的 建⽴索引效果可能不好。</p>
+<h3 id="索引列的类型尽量小"><a href="#索引列的类型尽量小" class="headerlink" title="索引列的类型尽量小"></a>索引列的类型尽量小</h3><p>​        我们这⾥所说的类型⼤⼩指的就是该类型表示的数 据范围的大小，在表示的整数范围允许的情况下，尽量 让索引列使⽤较⼩的类型</p>
+<h3 id="索引字符串值的前缀"><a href="#索引字符串值的前缀" class="headerlink" title="索引字符串值的前缀"></a>索引字符串值的前缀</h3><p>我们知道⼀个字符串其实是由若⼲个字符组成，如果我们在MySQL中 使⽤utf8字符集去存储字符串的话，编码⼀个字符需要占⽤1~3个 字节。</p>
+<p>只对字符串的前⼏个字符进⾏索引也就是 说在⼆级索引的记录中只保留字符串前⼏个字符。这样在查找记录时<br>虽然不能精确的定位到记录的位置，但是能定位到相应前缀所在的位 置，然后根据前缀相同的记录的主键值回表查询完整的字符串值，再 对⽐就好了。这样只在B+树中存储字符串的前⼏个字符的编码，既 节约空间，⼜减少了字符串的⽐较时间，还⼤概能解决排序的问题</p>
+<h3 id="让索引列在⽐较表达式中单独出现"><a href="#让索引列在⽐较表达式中单独出现" class="headerlink" title="让索引列在⽐较表达式中单独出现"></a>让索引列在⽐较表达式中单独出现</h3><p>​        假设表中有⼀个整数列my_col，我们为这个列建⽴了索引。下边的 两个WHERE⼦句虽然语义是⼀致的，但是在效率上却有差别：</p>
+<ol>
+<li>WHERE my_col * 2 &lt; 4 </li>
+<li>WHERE my_col &lt; 4/2</li>
+</ol>
+<p>第1个WHERE⼦句中my_col列并不是以单独列的形式出现的，⽽是 以my_col * 2这样的表达式的形式出现的，存储引擎会依次遍历所 有的记录，计算这个表达式的值是不是⼩于4，所以这种情况下是使 ⽤不到为my_col列建⽴的B+树索引的。⽽第2个WHERE⼦句中 my_col列并是以单独列的形式出现的，这样的情况可以直接使 ⽤B+树索引。 所以结论就是：如果索引列在⽐较表达式中不是以单独列的形式出 现，⽽是以某个表达式，或者函数调⽤形式出现的话，是⽤不到索引 的</p>
+<h3 id="主键插⼊顺序"><a href="#主键插⼊顺序" class="headerlink" title="主键插⼊顺序"></a>主键插⼊顺序</h3><p>如果我们插⼊的主键值忽⼤忽⼩的话，我们需要把当前⻚⾯分裂成两个⻚⾯，把本⻚中的⼀些记录移动到新创建的这个⻚中。⻚⾯ 分裂和记录移位意味着什么？意味着：性能损耗！所以如果我们想尽 量避免这样⽆谓的性能损耗，最好让插⼊的记录的主键值依次递增， 这样就不会发⽣这样的性能损耗了。所以我们建议：让主键具 有AUTO_INCREMENT，让存储引擎⾃⼰为表⽣成主键，⽽不是我们 ⼿动插⼊</p>
+<h3 id="注意冗余和重复索引"><a href="#注意冗余和重复索引" class="headerlink" title="注意冗余和重复索引"></a>注意冗余和重复索引</h3><p>⽆意的就对同⼀个列创建了多个索引或者又对主键建立了索引，会增加索引维护的成本。</p>
+<h1 id="MySQL的数据目录"><a href="#MySQL的数据目录" class="headerlink" title="MySQL的数据目录"></a>MySQL的数据目录</h1><p>​        像 InnoDB 、 MyISAM 这样的存储引擎都是把表存储在⽂件系统上的，所以MySQL也是要和文件系统新交互的。</p>
+<p>​        MySQL服务器程序在启动时会到⽂件系统的某个⽬录下加载⼀些⽂件，之后在运⾏过程中产⽣的数据也都会存储到这个⽬录下的某些⽂件中，这个⽬录就称为数据⽬录。</p>
+<h2 id="如何确定MySQL中的数据目录"><a href="#如何确定MySQL中的数据目录" class="headerlink" title="如何确定MySQL中的数据目录"></a>如何确定MySQL中的数据目录</h2><p>​        其实数据⽬录 对应着⼀个系统变量datadir，我们在使⽤客户端与服务器建⽴连 接之后查看这个系统变量的值就可以了</p>
+<p><img src="../../../desktop/%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%96%99/%E7%AC%94%E8%AE%B0/images/image-20200608203605872.png" alt="image-20200608203605872"></p>
+<h2 id="数据目录的结构"><a href="#数据目录的结构" class="headerlink" title="数据目录的结构"></a>数据目录的结构</h2><p>MySQL在运⾏过程中都会产⽣哪些数据呢？当然会包含我们创建的数 据库、表、视图和触发器吧啦吧啦的⽤户数据，除了这些⽤户数据， 为了程序更好的运⾏，MySQL也会创建⼀些其他的额外数据，我们接 下来细细的品味⼀下这个数据⽬录下的内容</p>
+<h3 id="数据库在文件系统中的表示"><a href="#数据库在文件系统中的表示" class="headerlink" title="数据库在文件系统中的表示"></a>数据库在文件系统中的表示</h3><p>​        每个数据库都 对应数据⽬录下的⼀个⼦⽬录，或者说对应⼀个⽂件夹。</p>
+<p>​        新建⼀个数据库时，MySQL会帮我们做这两件事⼉：</p>
+<ol>
+<li>在数据⽬录下创建⼀个和数据库名同名的⼦⽬录（或者说是⽂件夹）。 </li>
+<li>在该与数据库名同名的⼦⽬录下创建⼀个名为db.opt的⽂ 件，这个⽂件中包含了该数据库的各种属性，⽐⽅说该数据库的字符集和⽐较规则是个啥。</li>
+</ol>
+<h3 id="表在⽂件系统中的表示"><a href="#表在⽂件系统中的表示" class="headerlink" title="表在⽂件系统中的表示"></a>表在⽂件系统中的表示</h3><p>我们的数据其实都是以记录的形式插⼊到表中的，每个表的信息其实 可以分为两种：</p>
+<ol>
+<li>表结构的定义</li>
+<li>表中的数据</li>
+</ol>
+<p>InnoDB和MyISAM这两种存储引擎都在数据⽬录下对应的数据 库⼦⽬录下创建了⼀个专⻔⽤于<strong>描述表结构</strong>的⽂件，⽂件名是这样：<strong>表名.frm</strong></p>
+<p>这个后缀名为.frm是以⼆进 制格式存储的，我们直接打开会是乱码的</p>
+<h3 id="InnoDB是如何存储表数据的"><a href="#InnoDB是如何存储表数据的" class="headerlink" title="InnoDB是如何存储表数据的"></a>InnoDB是如何存储表数据的</h3><p>设计InnoDB的⼤叔们提出了⼀个表空间或 者⽂件空间（英⽂名：table space或者file space）的概念， 这个表空间是⼀个抽象的概念，它可以对应⽂件系统上⼀个或多个真 实⽂件（不同表空间对应的⽂件数量可能不同）</p>
+<p>每⼀个表空间可以 被划分为很多很多很多个⻚，我们的表数据就存放在某个表空间下的 某些⻚⾥。设计InnoDB的⼤叔将表空间划分为⼏种不同的类型，我 们⼀个⼀个看⼀下：</p>
+<h4 id="系统表空间"><a href="#系统表空间" class="headerlink" title="系统表空间"></a>系统表空间</h4><p>这个所谓的系统表空间可以对应⽂件系统上⼀个或多个实际的⽂件， 默认情况下，InnoDB会在数据⽬录下创建⼀个名为ibdata1、⼤⼩为12M的⽂件，这个⽂件是所谓的⾃扩展⽂件， 也就是当不够⽤的时候它会⾃⼰增加⽂件⼤⼩</p>
+<p>在⼀个MySQL服务器中，系统表空间只有<strong>⼀ 份</strong>。从MySQL5.5.7到MySQL5.6.6之间的各个版本中，我们表中的 数据都会被默认存储到这个 系统表空间</p>
+<h4 id="独立表空间"><a href="#独立表空间" class="headerlink" title="独立表空间"></a>独立表空间</h4><p>在MySQL5.6.6以及之后的版本中，InnoDB并不会默认的把各个表 的数据存储到系统表空间中，⽽是为每⼀个表建⽴⼀个独⽴表空间， 也就是说我们创建了多少个表，就有多少个独⽴表空间。使⽤独⽴表 空间来存储表数据的话，会在该表所属数据库对应的⼦⽬录下创建⼀ 个表示该独⽴表空间的⽂件，⽂件名和表名相同，只不过添加了⼀ 个.ibd的扩展名⽽已。</p>
+<p><img src="../../../desktop/%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%96%99/%E7%AC%94%E8%AE%B0/images/image-20200608220228092.png" alt="image-20200608220228092"></p>
+<h4 id="其他类型的表空间"><a href="#其他类型的表空间" class="headerlink" title="其他类型的表空间"></a>其他类型的表空间</h4><p>​    通⽤表空间（general tablespace）、undo表空间（undo tablespace）、临时表空间 （temporary tablespace）</p>
+<h3 id="MyISAM是如何存储表数据的"><a href="#MyISAM是如何存储表数据的" class="headerlink" title="MyISAM是如何存储表数据的"></a>MyISAM是如何存储表数据的</h3><p>在MyISAM中的索引全部都是⼆级索引，该存储引擎的数据和索引是 分开存放的。所以在⽂件系统中也是使⽤不同的⽂件来存储数据⽂件 和索引⽂件。⽽且和InnoDB不同的是，MyISAM并没有什么所谓的 表空间⼀说，<strong>表数据都存放到对应的数据库⼦⽬录下</strong>。</p>
+<p><img src="../../../desktop/%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%96%99/%E7%AC%94%E8%AE%B0/images/image-20200608215948301.png" alt="image-20200608215948301"></p>
+<h3 id="视图在文件系统中的表示"><a href="#视图在文件系统中的表示" class="headerlink" title="视图在文件系统中的表示"></a>视图在文件系统中的表示</h3><p>​        我们知道MySQL中的视图其实是虚拟的表，只需要把它的结构存储起来就⾏了。和表⼀样，描述视图结构的⽂件也 会被存储到所属数据库对应的⼦⽬录下边，只会存储⼀个视图 名.frm的⽂件</p>
+<h2 id="⽂件系统对数据库的影响"><a href="#⽂件系统对数据库的影响" class="headerlink" title="⽂件系统对数据库的影响"></a>⽂件系统对数据库的影响</h2><p>​        因为MySQL的数据都是存在⽂件系统中的，就不得不受到⽂件系统的 ⼀些制约，这在数据库和表的命名、表的⼤⼩和性能⽅⾯体现的⽐较 明显，⽐如下边这些⽅⾯</p>
+<ol>
+<li><p>数据库名称和表名称不得超过⽂件系统所允许的最⼤⻓度</p>
+</li>
+<li><p>特殊字符的问题</p>
+<p>​    MySQL会把数据库名和表名中所有除数字和 拉丁字⺟以外的所有字符在⽂件名⾥都映射成 @+编码值的形式 作为⽂件名。</p>
+</li>
+<li><p>⽂件⻓度受⽂件系统最⼤⻓度限制</p>
+</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/06/09/MySQL%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" data-id="ckb7ctw6e0008msuq3e0f14gw" class="article-share-link">分享</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2020/05/31/Leetcode191%E5%91%A8%E8%B5%9B%E8%AE%B0%E5%BD%95/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">Leetcode191周赛记录</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+
+
+  <!-- 来必力City版安装代码 -->
+<div id="lv-container" data-id="city" data-uid="MTAyMC81MDI4Mi8yNjc3Mg==">
+<script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+</script>
+<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+</div>
+<!-- City版安装代码已完成 -->
+</section>
+        
+          <aside id="sidebar">
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title"></h3>
+  <div class="widget">
+    <h1 class="blog-title">Hexo</h1>
+    <h2 class="blog-subtitle"></h2>
+    <ul class="blog-link">
+     
+          <a href="/" title="Home">
+            <li>主页</li>
+          </a>
+        
+          <a href="/archives" title="Archives">
+            <li>归档</li>
+          </a>
+        
+          <a href="/categories" title="Categories">
+            <li>分类</li>
+          </a>
+        
+          <a href="/tags" title="Tags">
+            <li>标签</li>
+          </a>
+        
+    </ul>
+  </div>
+</div>
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title"></h3>
+  <div class="widget">
+    <img class="avatar" src="https://avatars2.githubusercontent.com/u/27482677?s=400&amp;u=6b59d40ef11f7ab3e1012ec3be6fa1df20c073c6&amp;v=4">
+    <h2 class="author">Mr Hu</h2>
+    <h3 class="description"></h3>
+    <div class="count-box">
+      <a href="/archives"><div><strong>6</strong><br>文章</div></a>
+      <a href="/categories"><div><strong>2</strong><br>分类</div></a>
+      <a href="/tags"><div><strong>3</strong><br>标签</div></a>
+    </div>
+
+
+
+    <div class="social-link">
+      
+        <a class="hvr-bounce-in" href="http://github.com/xiaolaoshu9696" target="_blank" title="Github">
+          Github
+        </a>
+      
+    </div>
+
+    <div class="friend-link">
+      <h2>友情链接</h2>
+      
+        <a class="hvr-bounce-in" href="http://blog.shanamaid.top/" target="_blank" title="ShanaMaid">
+          ShanaMaid
+        </a>
+      
+    </div>
+  </div>
+</div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy;2019 - 2020 Mr Hu<br>
+      由<a href="http://hexo.io/" target="_blank">Hexo</a>强力驱动 | 
+      主题-<a href="https://github.com/ShanaMaid/hexo-theme-shana" target="_blank" rel="noopener">Shana</a>
+      
+    </div>
+    
+  </div>
+</footer>
+    </div>
+    
+
+<script src="//apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="//apps.bdimg.com/libs/wow/0.1.6/wow.min.js"></script>
+<script>
+new WOW().init();
+</script>   
+
+
+  
+<link rel="stylesheet" href="/plugin/fancybox/jquery.fancybox.css">
+
+  
+<script src="/plugin/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+  
+<link rel="stylesheet" href="/plugin/galmenu/GalMenu.css">
+
+  
+<script src="/plugin/galmenu/GalMenu.js"></script>
+
+  <div class="GalMenu GalDropDown">
+      <div class="circle" id="gal">
+        <div class="ring">
+          
+            <a href="/" title="" class="menuItem">首页</a>
+          
+            <a href="/tags" title="" class="menuItem">标签</a>
+          
+            <a href="/categories" title="" class="menuItem">分类</a>
+          
+            <a href="/archives" title="" class="menuItem">归档</a>
+          
+            <a href="/xxxxxxxxx" title="" class="menuItem">xxx</a>
+          
+            <a href="/xxxxxxx" title="" class="menuItem">xxxx</a>
+          
+        </div>
+        
+          <audio id="audio" src="#"></audio>
+        
+      </div> 
+</div>
+<div id="overlay" style="opacity: 1; cursor: pointer;"></div>
+  <script type="text/javascript">var items = document.querySelectorAll('.menuItem');
+    for (var i = 0,
+    l = items.length; i < l; i++) {
+      items[i].style.left = (50 - 35 * Math.cos( - 0.5 * Math.PI - 2 * (1 / l) * i * Math.PI)).toFixed(4) + "%";
+      items[i].style.top = (50 + 35 * Math.sin( - 0.5 * Math.PI - 2 * (1 / l) * i * Math.PI)).toFixed(4) + "%"
+    }</script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('body').GalMenu({
+      'menu': 'GalDropDown'
+    })
+  });
+</script>
+
+  <section class="hidden-xs"> 
+  <ul class="cb-slideshow"> 
+    <li><span>苟利</span></li> 
+    <li><span>国家</span></li> 
+    <li><span>生死以</span></li> 
+    <li><span>岂能</span></li> 
+    <li><span>祸福</span></li> 
+    <li><span>趋避之</span></li> 
+  </ul>
+</section>
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("T25SeicUwLOgQTnKtU5mkEwp-gzGzoHsz", "bmgFb6nodq1gthjque88CAHn");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.article-title').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+
+
+  </div>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"left","width":300,"height":600},"mobile":{"show":true},"react":{"opacity":0.9}});</script></body>
+</html>
